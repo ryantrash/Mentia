@@ -3,6 +3,12 @@
 # dependencies
 node_modules/
 
+# other files
+app.json
+eas.json
+package-lock.json
+package.json
+
 # Expo
 .expo/
 dist/
