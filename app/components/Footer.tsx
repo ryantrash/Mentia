@@ -1,18 +1,20 @@
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 export default function Footer(){
+    const router = useRouter(); 
 
     return(
         <View style={style.container}>
-            <TouchableOpacity style={style.icon}>
+            <TouchableOpacity onPress={() => router.navigate("./")} style={style.icon}>
                 <Ionicons name="home" size={32} color="#fff"/>
             </TouchableOpacity>
-            <TouchableOpacity style={style.icon}>
+            <TouchableOpacity onPress={() => router.navigate("/createPost")}style={style.icon}>
                 <MaterialCommunityIcons name="leaf" size={32} color="#fff"/>
             </TouchableOpacity>
-            <TouchableOpacity style={style.icon} >
+            <TouchableOpacity style={style.icon} >  
                 <Ionicons name="person" size={32} color="#fff"/>
             </TouchableOpacity>
         </View>
