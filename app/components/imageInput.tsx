@@ -3,7 +3,12 @@ import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Modal from 'react-native-modal';
 import { colors } from '../style';
-export default function ImageInput() {
+
+interface ImageInputProps{
+    updateUri: (uri: string) => void 
+}
+
+export default function ImageInput({updateUri}: ImageInputProps) {
     const [image, setImage] = useState("");
     const [showModal, setModal] = useState(false);
 
@@ -16,7 +21,7 @@ export default function ImageInput() {
         });
         if (!result.canceled && result.assets?.length) {
             const uri = result.assets[0].uri;
-            setImage(uri);
+            handleImageSelect(uri); 
             console.log(uri);
         } else {
             console.log("CANCELLED - Image Select");
@@ -30,13 +35,18 @@ export default function ImageInput() {
         });
         if (!result.canceled && result.assets?.length) {
             const uri = result.assets[0].uri;
-            setImage(uri);
+            handleImageSelect(uri)
             console.log(uri);
         } else {
             console.log("CANCELLED - Image Take");
         }
         toggleModal();
     }
+    const handleImageSelect = (uri: string) =>{
+        setImage(uri);
+        updateUri(uri); 
+    }
+
     const toggleModal = () => {
         setModal(!showModal);
     }
