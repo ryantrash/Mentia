@@ -26,7 +26,7 @@ export default function CreatePost(){
     const handleSubmit = async () => {
         if(uri && title && content){
             try {
-                const res = axios.post('http://10.0.2.2:3000/posts', {
+                const res = await axios.post('http://10.0.2.2:3000/posts', {
                     title, 
                     content,
                     image: uri, 

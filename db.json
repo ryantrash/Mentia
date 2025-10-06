@@ -1,3 +1,10 @@
 {
-  "posts": []
+  "posts": [
+    {
+      "id": "477d",
+      "title": "Test Post",
+      "content": "This is a test Post. I am testing post functionality. ",
+      "image": "file:///data/user/0/host.exp.exponent/cache/ImagePicker/ed53cd1c-d7ed-4880-9c24-ae22b9de1e10.jpeg"
+    }
+  ]
 }
