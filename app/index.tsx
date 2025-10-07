@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import Post from './components/Post';
+import Post from "./components/Post";
 
 export default function Index() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -24,11 +24,11 @@ export default function Index() {
   return (
     <>
     <Header/>
-    <View style={styles.container}>
+    <ScrollView style={styles.scroll} contentContainerStyle={styles.contentContainer}>
+      <View style={styles.container}>
       {renderedPosts}
-      <Text>Home Screen</Text>
-      <TouchableHighlight><Text>Click Me!</Text></TouchableHighlight>
-    </View>
+      </View>
+    </ScrollView>
     <Footer />
     </>
   );
@@ -36,9 +36,15 @@ export default function Index() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#0A3A2A",
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingVertical: 16,
+  },
+  scroll: {
+    flex: 1,
+    backgroundColor: "#0A3A2A"
+  },
+  contentContainer: {
+    flexGrow: 1,
   }
 })
