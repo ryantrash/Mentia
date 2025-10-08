@@ -1,17 +1,31 @@
+import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
 import { useRouter } from 'expo-router';
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
-export default function Post({ title, content, image, key }: any) {
-    const router = useRouter(); 
+export default function Post({ title, content, image, likes, liked = false, id }: any) {
+    const router = useRouter();
     const preview = content.length > 80 ? content.substring(0, 80) : null;
-
-    const handlePress = () => {
-        console.log(title,content,image); 
-        router.push({
+    const [like_ct, setLikes] = useState(likes); 
+    const handlePress = async () => {
+        await router.push({
             pathname: "/postView",
-            params: { title, content, image }
+            params: { title, content, image, liked }
         });
+        
+    }
+
+    const handleLike = () => {
+        liked = !liked;
+        try {
+        axios.patch(`http://10.0.2.2:3000/posts/${id}`, {
+            likes: likes + 1,
+        });
+        setLikes(like_ct+1); 
+        } catch(e : any){
+            console.log(e); 
+        }
     }
 
     return (
@@ -19,8 +33,14 @@ export default function Post({ title, content, image, key }: any) {
         <TouchableHighlight onPress={handlePress} style={styles.post}>
             <View>
                 <Image source={{ uri: image }} />
-                <Text style={styles.title}>{preview ? preview : content}</Text>
-                <Text style={styles.content}>{content}</Text>
+                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.content}>{preview ? preview : content}... Click to view more</Text>
+                <TouchableHighlight onPress={handleLike}>
+                    <View>
+                        <Ionicons name={"heart-outline"} color={"white"} size={30} />
+                        <Text style={styles.content}>{like_ct}</Text>
+                    </View>
+                </TouchableHighlight>
             </View>
         </TouchableHighlight>
 

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useRouter } from 'expo-router';
 import React, { useState } from "react";
 import { Alert, Text, TouchableHighlight } from "react-native";
 import Footer from "./components/Footer";
@@ -10,6 +11,7 @@ export default function CreatePost(){
     const [title, setTitle] = useState(""); 
     const [content, setContent] = useState("");
     const [uri, setUri] = useState("");
+    const router = useRouter(); 
 
     // setting state variables
     const updateUri = (uri: string) => {
@@ -30,10 +32,12 @@ export default function CreatePost(){
                     title, 
                     content,
                     image: uri, 
+                    likes: 0, 
                 }, {
                     headers: {'Content-Type': "application/json"}
                 })
                 console.log("Submission success: ", res); 
+                router.navigate("./");
             } catch (error: any){
                 console.log("Upload failed: ", error); 
                 Alert.alert("Upload Failed")

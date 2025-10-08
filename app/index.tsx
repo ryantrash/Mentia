@@ -18,7 +18,7 @@ export default function Index() {
 
   const renderedPosts = posts.map((post) => {
     return(
-      <Post title={post.title} content={post.content} image={post.image} key={post.id}/>
+      <Post title={post.title} content={post.content} image={post.image} likes={post.likes} id={post.id} key={post.id}/>
     )
   })
   return (
