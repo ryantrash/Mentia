@@ -1,11 +1,17 @@
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
 export default function Post({ title, content, image, key }: any) {
+    const router = useRouter(); 
     const preview = content.length > 80 ? content.substring(0, 80) : null;
 
     const handlePress = () => {
-
+        console.log(title,content,image); 
+        router.push({
+            pathname: "/postView",
+            params: { title, content, image }
+        });
     }
 
     return (
@@ -34,5 +40,6 @@ const styles = StyleSheet.create({
     },
     content: {
         color: "white",
+        fontSize: 12
     }
 })
