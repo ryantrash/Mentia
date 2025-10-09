@@ -1,39 +1,35 @@
-import axios from "axios";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Platform, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAuth } from "./AuthProvider";
 
-export default function Login(){
-    const router = useRouter(); 
-    const [username, setUsername] = useState(""); 
-    const [password, setPassword] = useState(""); 
-
-    const base = Platform.OS === "android" ? 'http://10.0.2.2:3000' : 'http://localhost:3000'; 
+export default function Login() {
+    const router = useRouter();
+    const { attemptLogin } = useAuth();
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
     const handleLogin = async () => {
-        try {
-            const res = await axios.get(`${base}/users`, {
-                params: {
-                    username, 
-                    password, 
-                }
-            });
-            if(Array.isArray(res.data) && res.data.length > 0){
-                router.navigate("/Home"); 
-            }
-        } catch (e){
-            console.error(e); 
+        if (!username || !password) {
+            Alert.alert("Missing fields", "Enter username and password");
+            return;
+        }
+        const ok = await attemptLogin(username, password);
+        if (ok) {
+            router.navigate("/Home");
+        } else {
+            Alert.alert("Username or Password Incorrect", "Check both fields");
         }
     }
 
-    return(
+    return (
         <SafeAreaView >
             <Text>Login: </Text>
             <Text>Username: </Text>
-            <TextInput value={username} onChangeText={setUsername}/>
+            <TextInput value={username} onChangeText={setUsername} />
             <Text>Password: </Text>
-            <TextInput secureTextEntry value={password} onChangeText={setPassword}/>
+            <TextInput secureTextEntry value={password} onChangeText={setPassword} />
             <TouchableOpacity onPress={handleLogin}>
                 <View>
                     <Text>Login</Text>

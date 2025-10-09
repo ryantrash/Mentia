@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Alert, Text, TouchableHighlight } from "react-native";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import ImageInput from "./components/imageInput";
+import ImageInput from "./components/ImageInput";
 import PostTextInputs from "./components/PostTextInputs";
 
 export default function CreatePost(){
