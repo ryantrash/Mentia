@@ -8,7 +8,7 @@ export default function Footer(){
 
     return(
         <View style={style.container}>
-            <TouchableOpacity onPress={() => router.navigate("./")} style={style.icon}>
+            <TouchableOpacity onPress={() => router.navigate("/Home")} style={style.icon}>
                 <Ionicons name="home" size={32} color="#fff"/>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => router.navigate("/createPost")}style={style.icon}>
