@@ -16,15 +16,8 @@ const style = StyleSheet.create({
         width: "100%", 
         justifyContent: "center", 
         alignItems: "center",
-        paddingVertical: 24,
-        paddingHorizontal: 16,
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 6,
-        elevation: 6,
+        padding: 20,
+        
     },
     headerText: {
         color: "#ffffff", 

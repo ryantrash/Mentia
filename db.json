@@ -1,1 +1,11 @@
-{}
+{
+  "posts": [
+    {
+      "id": "f5ec",
+      "title": "Test Post",
+      "content": "I am testing post functionality. This is a test for post functionality. I am testing this feature. I love this feature. This feature is great. I want to keep adding text to test multi-line inputs. Blah blah blah, important post here. This is a good post, a great post if anything!!! I love posting, post post post. ",
+      "image": "file:///data/user/0/host.exp.exponent/cache/ImagePicker/2aa5c055-7a59-47f1-adbe-d100b8bf8a94.jpeg",
+      "likes": 1
+    }
+  ]
+}

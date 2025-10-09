@@ -1,44 +1,50 @@
-import { Link } from "expo-router";
-import { Button, StyleSheet, Text, View } from "react-native";
+import axios from 'axios';
+import { useEffect, useState } from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import Post from "./components/Post";
+
 export default function Index() {
+  const [posts, setPosts] = useState<any[]>([]);
+
+  useEffect(() =>{
+      const fetchPosts = async () => {
+        const res = await axios.get("http://10.0.2.2:3000/posts"); 
+        setPosts(res.data);
+      }
+      fetchPosts(); 
+  },[])
+
+  const renderedPosts = posts.map((post) => {
+    return(
+      <Post title={post.title} content={post.content} image={post.image} likes={post.likes} id={post.id} key={post.id}/>
+    )
+  })
   return (
     <>
-      <Header />
+    <Header/>
+    <ScrollView style={styles.scroll} contentContainerStyle={styles.contentContainer}>
       <View style={styles.container}>
-        <Text style={styles.title}>Home Screen</Text>
-        <Link href="./createPost" asChild>
-          <View style={styles.buttonWrapper}>
-            <Button title="Go to Details" color="#B9FBC0" />
-          </View>
-        </Link>
+      {renderedPosts}
       </View>
-      <Footer />
+    </ScrollView>
+    <Footer />
     </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#0A3A2A", 
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 24,
+    paddingVertical: 16,
   },
-  title: {
-    fontSize: 28,
-    color: "#B9FBC0", 
-    fontFamily: "FunnelSans-VariableFont_wght",
-    marginBottom: 20,
-    letterSpacing: 1,
+  scroll: {
+    flex: 1,
+    backgroundColor: "#0A3A2A"
   },
-  buttonWrapper: {
-    backgroundColor: "#1F5135",
-    padding: 2,
-    borderRadius: 12,
-    overflow: "hidden",
-    width: 200,
-  },
-});
+  contentContainer: {
+    flexGrow: 1,
+  }
+})
