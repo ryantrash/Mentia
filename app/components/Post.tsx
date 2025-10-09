@@ -2,29 +2,36 @@ import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Image, Platform, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
-export default function Post({ title, content, image, likes, liked = false, id }: any) {
+export default function Post({ title, content, image, likes, id }: any) {
     const router = useRouter();
     const preview = content.length > 80 ? content.substring(0, 80) : null;
-    const [like_ct, setLikes] = useState(likes); 
+    const init_likes = Number(likes) || 0;
+    const [liked, setLiked] = useState(false);
+    const [likeCount, setLikeCount] = useState(init_likes);
+
+    const base = Platform.OS === 'android' ? 'http://10.0.2.2:3000/' : 'http://localhost:3000/';
+
     const handlePress = async () => {
-        await router.push({
+        router.push({
             pathname: "/postView",
-            params: { title, content, image, liked }
+            params: { title, content, image, liked: liked.toString() }
         });
-        
+
     }
 
-    const handleLike = () => {
-        liked = !liked;
+    const handleLike = async (event?: any) => {
+        event?.stopPropagation?.();
+        const delta = liked ? -1 : 1;
+
+        setLiked(!liked);
+        setLikeCount(likeCount + delta);
+        const newLikes = likeCount + delta;
         try {
-        axios.patch(`http://10.0.2.2:3000/posts/${id}`, {
-            likes: likes + 1,
-        });
-        setLikes(like_ct+1); 
-        } catch(e : any){
-            console.log(e); 
+            const res = axios.patch(`${base}posts/${id}`, { likes: newLikes });
+        } catch (error: any) {
+            console.log(error);
         }
     }
 
@@ -33,14 +40,17 @@ export default function Post({ title, content, image, likes, liked = false, id }
         <TouchableHighlight onPress={handlePress} style={styles.post}>
             <View>
                 <Image source={{ uri: image }} />
-                <Text style={styles.title}>{title}</Text>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>{title}</Text>
+                    <TouchableHighlight onPress={handleLike}>
+                        <View style={styles.likes}>
+                            <Ionicons name={"heart-outline"} color={liked ? "green" : "white"} size={30} />
+                            <Text style={styles.content}>{likeCount}</Text>
+                        </View>
+                    </TouchableHighlight>
+                </View>
                 <Text style={styles.content}>{preview ? preview : content}... Click to view more</Text>
-                <TouchableHighlight onPress={handleLike}>
-                    <View>
-                        <Ionicons name={"heart-outline"} color={"white"} size={30} />
-                        <Text style={styles.content}>{like_ct}</Text>
-                    </View>
-                </TouchableHighlight>
+
             </View>
         </TouchableHighlight>
 
@@ -56,10 +66,19 @@ const styles = StyleSheet.create({
     },
     title: {
         color: "white",
-        fontSize: 22,
+        fontSize: 26,
     },
     content: {
         color: "white",
         fontSize: 12
+    },
+    titleContainer: {
+        flexDirection: "row",
+        gap: 180
+    },
+    likes: {
+        flexDirection: "column",
+        justifyContent: "center", 
+        alignItems: "center", 
     }
 })
