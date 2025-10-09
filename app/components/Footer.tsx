@@ -18,20 +18,29 @@ export default function Footer(){
                 <Ionicons name="person" size={32} color="#fff"/>
             </TouchableOpacity>
         </View>
-    )
+    );
 }
 
 const style = StyleSheet.create({
     container: {
-        flexDirection: "row", 
+        flexDirection: "row",
         justifyContent: "space-around",
-        paddingBottom: 20,
-        padding:10,
-        backgroundColor: "#000"
-    }, 
+        alignItems: "center",
+        paddingVertical: 16,
+        paddingHorizontal: 24,
+        backgroundColor: "#1e1e1e", 
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: -2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 6,
+        elevation: 10,
+    },
     icon: {
         alignItems: 'center',
-        justifyContent: 'center', 
-        flex: 1, 
+        justifyContent: 'center',
+        padding: 10,
+        borderRadius: 50,
     }
-})
+});

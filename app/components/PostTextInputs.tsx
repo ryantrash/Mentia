@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, TextInput, View } from 'react-native'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
 import { globalStyles } from '../style'
 
 interface PostTextInputsProps {
@@ -10,7 +10,7 @@ interface PostTextInputsProps {
 export default function PostTextInputs({updateTitle, updateContent}: PostTextInputsProps){
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("") 
-
+    let titleLengthError = false;
     // set both the local state and parent state, pass up the input
     const handleTitleChange = (text: string) => {
         setTitle(text); 
@@ -24,13 +24,20 @@ export default function PostTextInputs({updateTitle, updateContent}: PostTextInp
     return(
         <View style={globalStyles.container}>
             <View style={globalStyles.container}>
-                <Text>Title: </Text>
-                <TextInput value={title} onChangeText={handleTitleChange}/>
+                <Text>Title: (Max Length 30)</Text>
+                <TextInput  maxLength={30} value={title} onChangeText={handleTitleChange}/>
+                {titleLengthError ? <View><Text>Title must be less than 30 characters</Text></View> : null}
             </View>
             <View style={globalStyles.container}>
                 <Text>Content:</Text>
-                <TextInput value={content} onChangeText={handleContentChange}/>
+                <TextInput multiline={true} value={content} onChangeText={handleContentChange}/>
             </View>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    contentInput: {
+        height: 30,
+    }
+})
