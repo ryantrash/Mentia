@@ -1,3 +1,5 @@
+import axios from 'axios';
+import { useRouter } from 'expo-router';
 import React, { useState } from "react";
 import { Alert, Text, TouchableHighlight } from "react-native";
 import Footer from "./components/Footer";
@@ -9,6 +11,7 @@ export default function CreatePost(){
     const [title, setTitle] = useState(""); 
     const [content, setContent] = useState("");
     const [uri, setUri] = useState("");
+    const router = useRouter(); 
 
     // setting state variables
     const updateUri = (uri: string) => {
@@ -24,37 +27,23 @@ export default function CreatePost(){
 
     const handleSubmit = async () => {
         if(uri && title && content){
-            const postData = new FormData();
-            await fetch(uri)
-                .then(response => response.blob())
-                .then(blob => {
-                    postData.append('image', blob, 'image.jpeg');
-                    postData.append('title', title);
-                    postData.append('content', content); 
+            try {
+                const res = await axios.post('http://10.0.2.2:3000/posts', {
+                    title, 
+                    content,
+                    image: uri, 
+                    likes: 0, 
+                }, {
+                    headers: {'Content-Type': "application/json"}
                 })
-                .catch(error => {
-                    Alert.alert("Image Error", "Failed to process image.");
-                });
-
-            await fetch('http://10.0.2.2:3000', {
-                method: "POST", 
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                },
-                body: JSON.stringify(postData), 
-            })
-                .then(data => {
-                    console.log("Success: ", data); 
-                })
-                .catch(error => {
-                    console.log("Upload Error: ", error); 
-                })
-
+                console.log("Submission success: ", res); 
+                router.navigate("./");
+            } catch (error: any){
+                console.log("Upload failed: ", error); 
+                Alert.alert("Upload Failed")
+            }
         } else {
-            Alert.alert(
-                "Missing Field",
-                "You are missing 1 or more fields"
-            ); 
+            Alert.alert("You are missing 1 or more fields");
         }
     }
     return(

@@ -15,6 +15,9 @@ dist/
 web-build/
 expo-env.d.ts
 
+# Database
+db.json
+
 # Native
 .kotlin/
 *.orig.*
