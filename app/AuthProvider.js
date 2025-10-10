@@ -5,6 +5,7 @@ import { Platform } from "react-native";
 const AuthContext = createContext({
   user: null,
   attemptLogin: async (username, password) => false,
+  createAccount: async (username, password) => false, 
 });
 
 const AuthProvider = ({ children }) => {
@@ -29,7 +30,29 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  return <AuthContext.Provider value={{ user, attemptLogin }}>{children}</AuthContext.Provider>;
+  const createAccount = async (username, password) => {
+    try {
+      const getRes = await axios.get(`${base}/users`, {
+        params: { username },
+      }); 
+      if(Array.isArray(getRes.data) && getRes.data.length < 1){
+        await axios.post(`${base}/users`, {
+          username, 
+          password, 
+        }); 
+        setUser(username); 
+        return true;
+      } else {
+        console.log("username already exists");
+        return false; 
+      }
+    } catch(err){
+      console.log(err); 
+      return false; 
+    }
+  }
+
+  return <AuthContext.Provider value={{ user, attemptLogin, createAccount }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;
