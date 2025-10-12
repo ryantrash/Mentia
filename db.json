@@ -3,6 +3,7 @@
     {
       "username": "test",
       "password": "test",
+      "description": "test description", 
       "id": "7839"
     }
   ],
