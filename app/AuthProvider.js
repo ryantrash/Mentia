@@ -3,10 +3,10 @@ import React, { createContext, useContext, useState } from "react";
 import { Alert, Platform } from "react-native";
 
 const AuthContext = createContext({
-  user: null,
+  user: { username: null, description: null, postDate: null, id: null },
   attemptLogin: async (username, password) => false,
   createAccount: async (username, password) => false,
-  getUser: async () => null,
+  createPost: async (uri, title, content) => false,
 });
 
 const AuthProvider = ({ children }) => {
@@ -21,8 +21,23 @@ const AuthProvider = ({ children }) => {
       });
 
       if (Array.isArray(res.data) && res.data.length > 0) {
-        setUser({ username });
-        return true;
+        try {
+          const res = await axios.get(`${base}/users`, {
+            params: { username },
+          });
+          const row = res.data[0];
+          setUser({
+            username: row.username,
+            description: row.description,
+            postDate: row.postDate,
+            id: row.id
+          })
+          return true;
+        } catch (err) {
+          console.log(err);
+          Alert.alert("Failed to get profile");
+          return null;
+        };
       } else {
         return false;
       }
@@ -38,12 +53,19 @@ const AuthProvider = ({ children }) => {
         params: { username },
       });
       if (Array.isArray(getRes.data) && getRes.data.length < 1) {
-        await axios.post(`${base}/users`, {
+        const postRes = await axios.post(`${base}/users`, {
+          username,
+          description,
+          postDate: null,
+        });
+
+        setUser({
           username,
           password,
           description,
+          postDate: null,
+          id: postRes.data.id
         });
-        setUser(username);
         return true;
       } else {
         console.log("username already exists");
@@ -55,22 +77,46 @@ const AuthProvider = ({ children }) => {
     }
   }
 
-  const getUser = async () => {
+  const createPost = async (uri, title, content) => {
+
+    if (!user) {
+      Alert.alert("User not logged in");
+      return false;
+    }
+
+    const today = new Date;
+    const res = await axios.get(`${base}/users/${user.id}`)
+    const postDate = res.data?.postDate;
+    console.log(user.postDate, today.toDateString());
+    if (user.postDate === today.toDateString()) {
+      Alert.alert("You've already posted once today!", "Come back later to post again.");
+      return true;
+    }
+
     try {
-      const res = await axios.get(`${base}/users`, {
-        params: { user },
+      await axios.post(`${base}/posts`, {
+        title,
+        content,
+        username: user.username,
+        date: today.toDateString(),
+        image: uri,
+        likes: 0,
+      }, {
+        headers: { 'Content-Type': "application/json" }
+      })
+
+      await axios.patch(`${base}/users/${user.id}`, {
+        postDate: today.toDateString()
       });
-      const row = res.data[0];
-      console.log(res.data[0])
-      return {username: row.username, description: row.description}; 
-    } catch (err) {
-      console.log(err);
-      Alert.alert("Failed to get profile");
-      return null;
-    };
+      return true;
+    } catch (error) {
+      console.log("Upload failed: ", error);
+      Alert.alert("Upload Failed")
+      return false;
+    }
   }
 
-  return <AuthContext.Provider value={{ user, attemptLogin, createAccount, getUser }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, attemptLogin, createAccount, createPost }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;
