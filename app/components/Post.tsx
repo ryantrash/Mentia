@@ -16,7 +16,7 @@ export default function Post({ title, username, content, image, likes, id }: any
     const handlePress = async () => {
         router.push({
             pathname: "/PostView",
-            params: { title, content, image, liked: liked.toString() }
+            params: { title, content, image, liked: liked.toString(), username }
         });
 
     }

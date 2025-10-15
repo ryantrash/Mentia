@@ -9,6 +9,7 @@ export default function postView(){
     const title = params.get("title");
     const image = params.get("image");
     const content = params.get("content"); 
+    const username = params.get("username"); 
 
     return(
         <>
@@ -16,6 +17,7 @@ export default function postView(){
         <View style={globalStyles.container}>
             <Image source={{uri: image ?? ""}} />
             <Text>
+            @{username}
             {title}
             {content}
             </Text>
