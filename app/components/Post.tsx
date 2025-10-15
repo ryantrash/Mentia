@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
-export default function Post({ title, content, image, likes, id }: any) {
+export default function Post({ title, username, content, image, likes, id }: any) {
     const router = useRouter();
     const preview = content.length > 80 ? content.substring(0, 80) : null;
     const init_likes = Number(likes) || 0;
@@ -42,6 +42,7 @@ export default function Post({ title, content, image, likes, id }: any) {
                 <Image source={{ uri: image }} />
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>{title}</Text>
+                    <Text style={styles.username}>@{username}</Text>
                     <TouchableHighlight onPress={handleLike}>
                         <View style={styles.likes}>
                             <Ionicons name={"heart-outline"} color={liked ? "green" : "white"} size={30} />
@@ -68,13 +69,18 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 26,
     },
+    username: {
+        fontSize: 12, 
+        color: "white", 
+    }, 
     content: {
         color: "white",
         fontSize: 12
     },
     titleContainer: {
         flexDirection: "row",
-        gap: 180
+        justifyContent: "space-between",
+        alignItems: "center",
     },
     likes: {
         flexDirection: "column",
