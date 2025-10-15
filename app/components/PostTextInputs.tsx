@@ -10,7 +10,9 @@ interface PostTextInputsProps {
 export default function PostTextInputs({updateTitle, updateContent}: PostTextInputsProps){
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("") 
-    let titleLengthError = false;
+    const maxTitleLength = 30;
+    const maxContentLength = 300; 
+
     // set both the local state and parent state, pass up the input
     const handleTitleChange = (text: string) => {
         setTitle(text); 
@@ -26,11 +28,14 @@ export default function PostTextInputs({updateTitle, updateContent}: PostTextInp
             <View style={globalStyles.container}>
                 <Text>Title: (Max Length 30)</Text>
                 <TextInput  maxLength={30} value={title} onChangeText={handleTitleChange}/>
-                {titleLengthError ? <View><Text>Title must be less than 30 characters</Text></View> : null}
+                { title.length === maxTitleLength && (<View><Text>Title must be less than 30 characters</Text></View>) }
+                <Text>{title.length} / {maxTitleLength}</Text>
             </View>
             <View style={globalStyles.container}>
                 <Text>Content:</Text>
-                <TextInput multiline={true} value={content} onChangeText={handleContentChange}/>
+                <TextInput multiline={true} value={content} maxLength={300} onChangeText={handleContentChange}/>
+                { content.length === maxContentLength && (<View><Text>Content must be less than 300 characters</Text></View>) }
+                <Text>{content.length} / {maxContentLength}</Text>
             </View>
         </View>
     );
