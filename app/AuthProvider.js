@@ -87,7 +87,7 @@ const AuthProvider = ({ children }) => {
     const today = new Date;
     const res = await axios.get(`${base}/users/${user.id}`)
     const postDate = res.data?.postDate;
-    console.log(user.postDate, today.toDateString());
+    console.log(postDate, today.toDateString());
     if (user.postDate === today.toDateString()) {
       Alert.alert("You've already posted once today!", "Come back later to post again.");
       return true;
