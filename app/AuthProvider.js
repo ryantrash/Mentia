@@ -7,6 +7,7 @@ const AuthContext = createContext({
   attemptLogin: async (username, password) => false,
   createAccount: async (username, password) => false,
   createPost: async (uri, title, content) => false,
+  updateDesc: async (newDesc) => false, 
 });
 
 const AuthProvider = ({ children }) => {
@@ -55,14 +56,14 @@ const AuthProvider = ({ children }) => {
       if (Array.isArray(getRes.data) && getRes.data.length < 1) {
         const postRes = await axios.post(`${base}/users`, {
           username,
-          description,
+          description: "Add a description!",
           postDate: null,
         });
 
         setUser({
           username,
           password,
-          description,
+          description: "Add a description!",
           postDate: null,
           id: postRes.data.id
         });
@@ -84,11 +85,12 @@ const AuthProvider = ({ children }) => {
       return false;
     }
 
-    const today = new Date;
+    const date = new Date;
+    const today = date.toDateString();
     const res = await axios.get(`${base}/users/${user.id}`)
     const postDate = res.data?.postDate;
-    console.log(postDate, today.toDateString());
-    if (user.postDate === today.toDateString()) {
+
+    if (user.postDate === today) {
       Alert.alert("You've already posted once today!", "Come back later to post again.");
       return true;
     }
@@ -98,7 +100,7 @@ const AuthProvider = ({ children }) => {
         title,
         content,
         username: user.username,
-        date: today.toDateString(),
+        date: today,
         image: uri,
         likes: 0,
       }, {
@@ -106,8 +108,13 @@ const AuthProvider = ({ children }) => {
       })
 
       await axios.patch(`${base}/users/${user.id}`, {
-        postDate: today.toDateString()
+        postDate: today
       });
+
+      setUser(prevUser => ({
+        ...prevUser,
+        postDate: today,
+      }))
       return true;
     } catch (error) {
       console.log("Upload failed: ", error);
@@ -116,7 +123,24 @@ const AuthProvider = ({ children }) => {
     }
   }
 
-  return <AuthContext.Provider value={{ user, attemptLogin, createAccount, createPost }}>{children}</AuthContext.Provider>;
+  const updateDesc = async (newDesc) => {
+    try {
+      await axios.patch(`${base}/users/${user.id}`, {
+        description: newDesc
+      });
+
+      setUser(prevUser => ({
+        ...prevUser,
+        description: newDesc,
+      }));
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  return <AuthContext.Provider value={{ user, attemptLogin, createAccount, createPost, updateDesc }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

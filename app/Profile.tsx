@@ -1,19 +1,44 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React, { useState } from "react";
+import { Text, TextInput, TouchableHighlight, View } from "react-native";
 import { useAuth } from "./AuthProvider";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { globalStyles } from "./style";
 
 export default function Profile() {
-    const { user } = useAuth();
-    
+    const { user, updateDesc } = useAuth();
+    const _init_desc_ = user.description ? user.description : "";
+    const [desc, setDesc] = useState(_init_desc_);
+    const [editDesc, setEditDesc] = useState(false);
+
+    const handleDescChange = (text: string) => {
+        setEditDesc(true);
+        setDesc(text);
+    }
+    const handleSave = () => {
+        if (editDesc) {
+            setEditDesc(false);
+            updateDesc(desc);
+        } else {
+            setEditDesc(true);
+        }
+    }
+
     return (
         <View style={globalStyles.container}>
             <Header />
             <View style={globalStyles.container}>
-                <Text>{user?.username}</Text>
-                <Text>{user?.description}</Text>
+                <Text>@{user?.username}</Text>
+                <TextInput value={desc} editable={editDesc} onChangeText={handleDescChange} />
+                {editDesc ?
+                    <View>
+                        <TouchableHighlight onPress={handleSave}><Text>Click to save!</Text></TouchableHighlight>
+                    </View>
+                    :
+                    <View>
+                        <TouchableHighlight onPress={handleSave}><Text>Edit Description...</Text></TouchableHighlight>
+                    </View>
+                }
             </View>
             <Footer />
         </View>
