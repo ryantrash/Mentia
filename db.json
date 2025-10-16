@@ -18,5 +18,16 @@
       "image": "file:///data/user/0/host.exp.exponent/cache/ImagePicker/2aa5c055-7a59-47f1-adbe-d100b8bf8a94.jpeg",
       "likes": 2
     }
+  ],
+  "comments" : [
+    {
+      "id": "f5ec",
+      "comments": [
+       {
+        "username": "test2", 
+        "content": "test comment"
+       } 
+      ]
+    }
   ]
 }

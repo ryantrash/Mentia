@@ -2,21 +2,21 @@ import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Image, Platform, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { useAuth } from '../AuthProvider';
 
 export default function Post({ title, username, content, image, likes, id }: any) {
     const router = useRouter();
+    const { base } = useAuth();
     const preview = content.length > 80 ? content.substring(0, 80) : null;
     const init_likes = Number(likes) || 0;
     const [liked, setLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(init_likes);
 
-    const base = Platform.OS === 'android' ? 'http://10.0.2.2:3000/' : 'http://localhost:3000/';
-
     const handlePress = async () => {
         router.push({
             pathname: "/PostView",
-            params: { title, content, image, liked: liked.toString(), username }
+            params: { title, content, image, liked: liked.toString(), username, id }
         });
 
     }
@@ -70,9 +70,9 @@ const styles = StyleSheet.create({
         fontSize: 26,
     },
     username: {
-        fontSize: 12, 
-        color: "white", 
-    }, 
+        fontSize: 12,
+        color: "white",
+    },
     content: {
         color: "white",
         fontSize: 12
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     },
     likes: {
         flexDirection: "column",
-        justifyContent: "center", 
-        alignItems: "center", 
+        justifyContent: "center",
+        alignItems: "center",
     }
 })

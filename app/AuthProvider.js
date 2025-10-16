@@ -4,6 +4,7 @@ import { Alert, Platform } from "react-native";
 
 const AuthContext = createContext({
   user: { username: null, description: null, postDate: null, id: null },
+  base: null, 
   attemptLogin: async (username, password) => false,
   createAccount: async (username, password) => false,
   createPost: async (uri, title, content) => false,
@@ -140,7 +141,7 @@ const AuthProvider = ({ children }) => {
     }
   }
 
-  return <AuthContext.Provider value={{ user, attemptLogin, createAccount, createPost, updateDesc }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, base, attemptLogin, createAccount, createPost, updateDesc }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;
