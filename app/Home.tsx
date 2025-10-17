@@ -10,8 +10,12 @@ export default function Index() {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await axios.get("http://10.0.2.2:3000/posts");
-      setPosts(res.data);
+      try {
+        const res = await axios.get("http://10.0.2.2:3000/posts");
+        setPosts(res.data);
+      } catch (error) {
+        console.log("Failed to get posts, home: ", error);
+      }
     }
 
     fetchPosts();

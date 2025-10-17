@@ -19,15 +19,12 @@
       "likes": 2
     }
   ],
-  "comments" : [
+  "comments": [
     {
-      "id": "f5ec",
-      "comments": [
-       {
-        "username": "test2", 
-        "content": "test comment"
-       } 
-      ]
+      "postId": "f5ec",
+      "username": "test2",
+      "content": "test comment",
+      "id": "e32f"
     }
   ]
 }
