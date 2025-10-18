@@ -27,14 +27,6 @@ export default function CommentView({ id }: any) {
             console.log("fetch comments failed: ", error);
         }
     }
-    /*
-    const renderedComments = comments.map((c) => {
-        console.log(c.id);
-        return (
-            <Comment username={c.username} content={c.content} key={c.id} />
-        )
-    })
-    */
 
     const handleSubmitComment = () => {
         try {
@@ -57,7 +49,13 @@ export default function CommentView({ id }: any) {
             <ScrollView>
                 {comments.map((c, index) => {
                     return (
-                        <Comment username={c.username} content={c.content} key={c.id || `${user}-${index}`} />
+                        <Comment 
+                        username={c.username} 
+                        content={c.content} 
+                        likes={c.likes} 
+                        id={c.id || `${user}-${index}`} 
+                        key={c.id || `${user}-${index}`} 
+                        />
                     )
                 })}
             </ScrollView>
