@@ -8,13 +8,13 @@ export default function Footer(){
 
     return(
         <View style={style.container}>
-            <TouchableOpacity onPress={() => router.navigate("./")} style={style.icon}>
+            <TouchableOpacity onPress={() => router.navigate("/Home")} style={style.icon}>
                 <Ionicons name="home" size={32} color="#fff"/>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => router.navigate("/createPost")}style={style.icon}>
+            <TouchableOpacity onPress={() => router.navigate("/CreatePost")} style={style.icon}>
                 <MaterialCommunityIcons name="leaf" size={32} color="#fff"/>
             </TouchableOpacity>
-            <TouchableOpacity style={style.icon} >  
+            <TouchableOpacity onPress={() => router.navigate("/Profile")} style={style.icon} >  
                 <Ionicons name="person" size={32} color="#fff"/>
             </TouchableOpacity>
         </View>

@@ -8,28 +8,41 @@ import Post from "./components/Post";
 export default function Index() {
   const [posts, setPosts] = useState<any[]>([]);
 
-  useEffect(() =>{
-      const fetchPosts = async () => {
-        const res = await axios.get("http://10.0.2.2:3000/posts"); 
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await axios.get("http://10.0.2.2:3000/posts");
         setPosts(res.data);
+      } catch (error) {
+        console.log("Failed to get posts, home: ", error);
       }
-      fetchPosts(); 
-  },[])
+    }
+
+    fetchPosts();
+  }, [])
 
   const renderedPosts = posts.map((post) => {
-    return(
-      <Post title={post.title} content={post.content} image={post.image} likes={post.likes} id={post.id} key={post.id}/>
+    return (
+      <Post
+        title={post.title}
+        username={post.username}
+        content={post.content}
+        image={post.image}
+        likes={post.likes}
+        id={post.id}
+        key={post.id}
+      />
     )
   })
   return (
     <>
-    <Header/>
-    <ScrollView style={styles.scroll} contentContainerStyle={styles.contentContainer}>
-      <View style={styles.container}>
-      {renderedPosts}
-      </View>
-    </ScrollView>
-    <Footer />
+      <Header />
+      <ScrollView style={styles.scroll} contentContainerStyle={styles.contentContainer}>
+        <View style={styles.container}>
+          {renderedPosts}
+        </View>
+      </ScrollView>
+      <Footer />
     </>
   );
 }

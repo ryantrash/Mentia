@@ -1,10 +1,9 @@
 import { useSearchParams } from "expo-router/build/hooks";
 import React from "react";
-import { Image, Text, View, StyleSheet, ScrollView } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import CommentView from "./components/CommentView";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import { globalStyles } from "./style";
 
 export default function postView() {
   const params = useSearchParams();
