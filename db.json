@@ -33,6 +33,12 @@
       "username": "test",
       "content": "new comment",
       "likes": 0
+    },
+    {
+      "id": "1760899984359",
+      "postId": "f5ec",
+      "username": "test",
+      "content": "tst"
     }
   ]
 }

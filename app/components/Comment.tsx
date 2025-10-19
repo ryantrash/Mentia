@@ -5,12 +5,15 @@ import { Alert, StyleSheet, Text, TouchableHighlight, View } from "react-native"
 import { useAuth } from "../AuthProvider";
 
 export default function Comment({ username, content, likes, id, key }: any) {
-    const { base } = useAuth(); 
+    const { base, checkUser } = useAuth(); 
     const [liked, setLiked] = useState(false);
     const init_likes = Number(likes) || 0; 
     const [likeCount, setLikeCount] = useState(init_likes); 
-
+    // test comment
     const handleLike = async () => {
+        if(!checkUser){
+            return; 
+        }
         const delta = liked ? -1 : 1; 
         
         setLiked(!liked); 
