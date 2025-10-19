@@ -3,6 +3,12 @@
 # dependencies
 node_modules/
 
+# other files
+app.json
+eas.json
+package-lock.json
+package.json
+
 # Expo
 .expo/
 dist/
@@ -13,6 +19,7 @@ expo-env.d.ts
 db.json
 
 # Native
+
 .kotlin/
 *.orig.*
 *.jks
