@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import React from "react";
 import AuthProvider from "./AuthProvider";
 
 export default function RootLayout() {

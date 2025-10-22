@@ -29,6 +29,7 @@ export default function Index() {
         content={post.content}
         image={post.image}
         likes={post.likes}
+        postDate={post.postDate}
         id={post.id}
         key={post.id}
       />
