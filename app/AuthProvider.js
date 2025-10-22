@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState } from "react";
 import { Alert, Platform } from "react-native";
 
 const AuthContext = createContext({
-  user: { username: null, description: null, postDate: null, id: null },
+  user: { username: null, description: null, postDate: null, id: null, admin: false },
   base: null,
   attemptLogin: async (username, password) => false,
   createAccount: async (username, password) => false,
@@ -19,7 +19,7 @@ const AuthProvider = ({ children }) => {
   const router = useRouter();
   const base = Platform.OS === "android" ? "http://10.0.2.2:3000" : "http://localhost:3000";
 
-  const attemptLogin = async (username, password) => {
+  const attemptLogin = async (username, password) => {  
     try {
       const res = await axios.get(`${base}/users`, {
         params: { username, password },
@@ -27,15 +27,13 @@ const AuthProvider = ({ children }) => {
 
       if (Array.isArray(res.data) && res.data.length > 0) {
         try {
-          const res = await axios.get(`${base}/users`, {
-            params: { username },
-          });
-          const row = res.data[0];
+          const row = res?.data[0];
           setUser({
             username: row.username,
             description: row.description,
             postDate: row.postDate,
-            id: row.id
+            id: row.id,
+            admin: row?.admin  
           })
           return true;
         } catch (err) {

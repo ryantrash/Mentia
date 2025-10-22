@@ -6,6 +6,14 @@
       "description": "test description",
       "id": "7839",
       "postDate": "Tue Oct 14 2025"
+    },
+    {
+      "username": "admin",
+      "password": "admin",
+      "description": "admin desc",
+      "id": "0000",
+      "postDate": "Tue Oct 14 2025",
+      "admin": true
     }
   ],
   "posts": [
@@ -19,19 +27,5 @@
       "likes": 2
     }
   ],
-  "comments": [
-    {
-      "postId": "f5ec",
-      "username": "test2",
-      "content": "test comment",
-      "likes": 0,
-      "id": "e32f"
-    },
-    {
-      "id": "1761091940830",
-      "postId": "f5ec",
-      "username": "test",
-      "content": "test"
-    }
-  ]
+  "comments": []
 }

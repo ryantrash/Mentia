@@ -6,6 +6,7 @@ import { handleLike } from "../api/commentsApi";
 
 export default function Comment({ username, content, likes, cid, key, deleteComment }: any) {
     const { user } = useAuth();
+    const admin = user.admin; 
     const [liked, setLiked] = useState(false);
     const init_likes = Number(likes) || 0;
     const [likeCount, setLikeCount] = useState(init_likes);
@@ -62,7 +63,7 @@ export default function Comment({ username, content, likes, cid, key, deleteComm
                             </TouchableHighlight>
                         </View>
                         <View>
-                            {user.username === username &&
+                            {(user.username === username || admin ) &&
                                 <TouchableHighlight onPress={handleDelete}>
                                     <View>
                                         <Ionicons name="trash-bin" color="white" />
