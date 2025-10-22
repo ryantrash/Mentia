@@ -28,10 +28,29 @@ export const fetchComments = async (id) => {
         console.log("fetch comments failed: ", error);
     }
 }
-/*
-export const delteComment = async (id) => {
+
+export const handleLike = async (id, likeCount, liked) => {
+    const delta = liked ? -1 : 1;
+    const newLikes = likeCount + delta;
+
     try {
-        const res = await axios.delete(`${base}/comments`)
+        await axios.patch(`${base}/comments/${id}`, {
+            likes: newLikes,
+        });
+        return newLikes; 
+    } catch (error) {
+        Alert.alert("Comment Like Failed");
+        console.log(error);
+        return -1; 
     }
 }
-*/
+
+export const deleteComment = async (id) => {
+    try {
+        await axios.delete(`${base}/comments/${id}`)
+        return true;
+    } catch (error) {
+        Alert.alert("Delete failed: ", error);
+        return false;
+    }
+}

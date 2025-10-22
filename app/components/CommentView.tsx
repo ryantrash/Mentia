@@ -30,11 +30,7 @@ export default function CommentView({ id }: any) {
             Alert.alert("Comment upload failed"); 
         }
     }
-    /*
-    const handleDeleteComment = async () => {
-        const ok = await deleteComment(id); 
-    }
-    */
+
     return (
         <View>
             <TextInput defaultValue={'Add comment...'} value={comment} onChangeText={setComment} />

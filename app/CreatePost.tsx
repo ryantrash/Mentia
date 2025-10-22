@@ -31,7 +31,7 @@ export default function CreatePost() {
         if (uri && title && content) {
             const ok = await createPost(uri, title, content); 
             if(ok){
-                router.navigate("/Home"); 
+                router.navigate("./Home"); 
             }
         } else {
             Alert.alert("You are missing 1 or more fields");
