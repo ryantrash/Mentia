@@ -22,7 +22,6 @@ export default function Login() {
         }
         const ok = await attemptLogin(username, password);
         if (ok) {
-            console.log("ye")
             router.navigate("./Home");
         } else {
             Alert.alert("Username or Password Incorrect", "Check both fields");

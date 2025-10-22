@@ -40,7 +40,7 @@ export const handleLike = async (id, likeCount, liked) => {
         return newLikes; 
     } catch (error) {
         Alert.alert("Comment Like Failed");
-        console.log(error);
+        console.log("Like failed: " + error);
         return -1; 
     }
 }

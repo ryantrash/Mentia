@@ -15,7 +15,7 @@ export default function postView() {
   return (
     <>
       <Header />
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView nestedScrollEnabled contentContainerStyle={styles.container}>
         {image ? (
           <Image source={{ uri: image }} style={styles.postImage} />
         ) : null}
@@ -29,9 +29,7 @@ export default function postView() {
         <View style={styles.commentSection}>
           <Text style={styles.commentHeader}>Comments</Text>
           <View style={styles.commentBox}>
-            <ScrollView style={styles.commentScroll}>
               <CommentView id={id} />
-            </ScrollView>
           </View>
         </View>
       </ScrollView>

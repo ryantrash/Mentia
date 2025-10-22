@@ -73,11 +73,12 @@ const AuthProvider = ({ children }) => {
         });
         return true;
       } else {
+        // Todo, alert user on this case
         console.log("username already exists");
         return false;
       }
     } catch (err) {
-      console.log(err);
+      console.log("Failed to create account: " + err);
       return false;
     }
   }
@@ -145,7 +146,7 @@ const AuthProvider = ({ children }) => {
       }));
       return true;
     } catch (error) {
-      console.log(error);
+      console.log("Failed to update description: " + error);
       return false;
     }
   }

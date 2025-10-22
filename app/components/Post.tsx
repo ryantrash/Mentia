@@ -31,7 +31,7 @@ export default function Post({ title, username, content, image, likes, id }: any
         try {
             const res = axios.patch(`${base}posts/${id}`, { likes: newLikes });
         } catch (error: any) {
-            console.log(error);
+            console.log("Post like failed: " + error);
         }
     }
 

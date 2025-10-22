@@ -25,6 +25,11 @@ export default function Comment({ username, content, likes, cid, key, deleteComm
         deleteComment(cid);
     }
 
+    const handleReport = () => {
+        // placeholder
+        return; 
+    }
+
     return (
         <View style={styles.comment}>
             <View>
@@ -58,13 +63,19 @@ export default function Comment({ username, content, likes, cid, key, deleteComm
                         </View>
                         <View>
                             {user.username === username &&
-                                <TouchableHighlight>
+                                <TouchableHighlight onPress={handleDelete}>
                                     <View>
                                         <Ionicons name="trash-bin" color="white" />
-                                        <Text>Delete Comment</Text>
+                                        <Text style={styles.modalContent}>Delete Comment</Text>
                                     </View>
                                 </TouchableHighlight>
                             }
+                            <TouchableHighlight onPress={handleReport}>
+                                <View>
+                                    <Ionicons name="flag" color="white"/>
+                                    <Text style={styles.modalContent}>Report Comment</Text>
+                                </View>
+                            </TouchableHighlight>
                         </View>
                     </View>
                 </View>

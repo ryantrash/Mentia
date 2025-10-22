@@ -42,7 +42,7 @@ export default function CommentView({ id }: any) {
         <View>
             <TextInput defaultValue={'Add comment...'} value={comment} onChangeText={setComment} />
             <TouchableOpacity onPress={handleSubmitComment}><Text>Submit Comment</Text></TouchableOpacity>
-            <ScrollView>
+            <ScrollView nestedScrollEnabled style={{maxHeight: 300}}>
                 {comments.map((c, index) => {
                     return (
                         <Comment
