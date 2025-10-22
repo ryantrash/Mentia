@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useAuth } from '../AuthProvider';
-import { fetchComments, uploadComment } from '../api/commentsApi';
+import { deleteComment, fetchComments, uploadComment } from '../api/commentsApi';
 import Comment from './Comment';
 
 export default function CommentView({ id }: any) {
@@ -17,17 +17,24 @@ export default function CommentView({ id }: any) {
     }, [])
 
     const getComments = async (id: any) => {
-        const res = await fetchComments(); 
-        setComments(res); 
+        const res = await fetchComments();
+        setComments(res);
     }
 
     const handleSubmitComment = async () => {
-        const ok = await uploadComment(username, comment, id); 
-        if(ok){
+        const ok = await uploadComment(username, comment, id);
+        if (ok) {
             setComments(prev => [{ username, content: comment }, ...prev]);
-            setComment(""); 
+            setComment("");
         } else {
-            Alert.alert("Comment upload failed"); 
+            Alert.alert("Comment upload failed");
+        }
+    }
+
+    const handleDeleteComment = async (cid: string) => {
+        const ok = await deleteComment(cid);
+        if (ok) {
+            setComments(prev => prev.filter(c => c.id !== cid));
         }
     }
 
@@ -38,12 +45,13 @@ export default function CommentView({ id }: any) {
             <ScrollView>
                 {comments.map((c, index) => {
                     return (
-                        <Comment 
-                        username={c.username} 
-                        content={c.content} 
-                        likes={c.likes} 
-                        id={c.id || `${user}-${index}`} 
-                        key={c.id || `${user}-${index}`} 
+                        <Comment
+                            username={c.username}
+                            content={c.content}
+                            likes={c.likes}
+                            cid={c.id || `${user}-${index}`}
+                            deleteComment={handleDeleteComment}
+                            key={c.id || `${user}-${index}`}
                         />
                     )
                 })}

@@ -4,21 +4,25 @@ import { Modal, StyleSheet, Text, TouchableHighlight, View } from "react-native"
 import { useAuth } from "../AuthProvider";
 import { handleLike } from "../api/commentsApi";
 
-export default function Comment({ username, content, likes, id, key }: any) {
-    const { base, checkUser } = useAuth();
+export default function Comment({ username, content, likes, cid, key, deleteComment }: any) {
+    const { user } = useAuth();
     const [liked, setLiked] = useState(false);
     const init_likes = Number(likes) || 0;
     const [likeCount, setLikeCount] = useState(init_likes);
     const [showOptions, setShowOptions] = useState(false);
     // test comment
     const handleCommentLike = async () => {
-        const res = await handleLike(id, likeCount, liked);
+        const res = await handleLike(cid, likeCount, liked);
         setLikeCount(res);
         setLiked(!liked);
     }
 
     const handleShowOptions = () => {
         setShowOptions(!showOptions);
+    }
+
+    const handleDelete = () => {
+        deleteComment(cid);
     }
 
     return (
@@ -46,11 +50,21 @@ export default function Comment({ username, content, likes, id, key }: any) {
             <Modal visible={showOptions} transparent>
                 <View style={styles.modal}>
                     <View style={styles.modalView}>
-                        <View style={{justifyContent: "space-between", flexDirection: "row", gap:30}}>
+                        <View style={{ justifyContent: "space-between", flexDirection: "row", gap: 30 }}>
                             <Text style={styles.modalContent}>Options</Text>
                             <TouchableHighlight onPress={handleShowOptions}>
                                 <Ionicons name="close-outline" color={"white"} />
                             </TouchableHighlight>
+                        </View>
+                        <View>
+                            {user.username === username &&
+                                <TouchableHighlight>
+                                    <View>
+                                        <Ionicons name="trash-bin" color="white" />
+                                        <Text>Delete Comment</Text>
+                                    </View>
+                                </TouchableHighlight>
+                            }
                         </View>
                     </View>
                 </View>
