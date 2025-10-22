@@ -17,7 +17,7 @@ export default function Post({ title, username, content, image, likes, id }: any
         router.push({
             pathname: "/PostView",
             params: { title, content, image, liked: liked.toString(), username, id }
-        });
+        } as any);
 
     }
 

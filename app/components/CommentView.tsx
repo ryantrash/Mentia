@@ -1,7 +1,7 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useAuth } from '../AuthProvider';
+import { fetchComments, uploadComment } from '../api/commentsApi';
 import Comment from './Comment';
 
 export default function CommentView({ id }: any) {
@@ -13,35 +13,28 @@ export default function CommentView({ id }: any) {
     const username = user.username ? user.username : "";
 
     useEffect(() => {
-        fetchComments();
+        getComments(id);
     }, [])
 
-    const fetchComments = async () => {
-        try {
-            const res = await axios.get(`${base}/comments`, {
-                params: { postId: id }
-            });
-            setComments(res.data);
-            console.log(res.data);
-        } catch (error) {
-            console.log("fetch comments failed: ", error);
-        }
+    const getComments = async (id: any) => {
+        const res = await fetchComments(); 
+        setComments(res); 
     }
 
-    const handleSubmitComment = () => {
-        try {
-            axios.post(`${base}/comments`, {
-                postId: id,
-                username,
-                content: comment,
-                id: Date.now().toString()
-            });
+    const handleSubmitComment = async () => {
+        const ok = await uploadComment(username, comment, id); 
+        if(ok){
             setComments(prev => [{ username, content: comment }, ...prev]);
-        } catch (error) {
-            console.log("Submit content failed: ", error);
+            setComment(""); 
+        } else {
+            Alert.alert("Comment upload failed"); 
         }
     }
-
+    /*
+    const handleDeleteComment = async () => {
+        const ok = await deleteComment(id); 
+    }
+    */
     return (
         <View>
             <TextInput defaultValue={'Add comment...'} value={comment} onChangeText={setComment} />

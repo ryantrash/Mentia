@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Text, TextInput, TouchableHighlight, View } from "react-native";
+import { StyleSheet, Text, TextInput, TouchableHighlight, View } from "react-native";
 import { useAuth } from "./AuthProvider";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import { globalStyles } from "./style";
 
 export default function Profile() {
     const { user, updateDesc } = useAuth();
@@ -25,9 +24,9 @@ export default function Profile() {
     }
 
     return (
-        <View style={globalStyles.container}>
+        <View style={styles.container}>
             <Header />
-            <View style={globalStyles.container}>
+            <View style={styles.container}>
                 <Text>@{user?.username}</Text>
                 <TextInput value={desc} editable={editDesc} onChangeText={handleDescChange} />
                 {editDesc ?
@@ -44,3 +43,9 @@ export default function Profile() {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1, 
+    }
+})
