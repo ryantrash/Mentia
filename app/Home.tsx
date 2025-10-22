@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from "react-native";
 import Footer from "./components/Footer";
 import Header from "./components/Header";

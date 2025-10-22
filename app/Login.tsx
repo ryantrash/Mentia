@@ -22,7 +22,8 @@ export default function Login() {
         }
         const ok = await attemptLogin(username, password);
         if (ok) {
-            router.navigate("/Home");
+            console.log("ye")
+            router.navigate("./Home");
         } else {
             Alert.alert("Username or Password Incorrect", "Check both fields");
         }
@@ -35,7 +36,7 @@ export default function Login() {
         } 
         const ok = await createAccount(createUser, createPass); 
         if(ok){
-            router.navigate("/Home"); 
+            router.navigate("/Home" as any ); 
         } else {
             Alert.alert("Username already taken", "Please select another username")
         }
