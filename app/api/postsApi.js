@@ -7,7 +7,6 @@ export const deletePost = async (id) => {
     try {
         console.log(base, id);
         await axios.delete(`${base}/posts/${id}`);
-        console.log(1);
 
         const res = await axios.get(`${base}/comments`, {
             params: {
@@ -19,12 +18,21 @@ export const deletePost = async (id) => {
         await Promise.all(
             comments.map(c => axios.delete(`${base}/comments/${c.id}`))
         );
-        console.log(2);
-        return true; 
+
+        return true;
     } catch (error) {
         console.log("failed to delete post: ", error);
         return false;
     }
 }
-// todo migrate fetchposts
+
+export const fetchPosts = async () => {
+    try {
+        const res = await axios.get("http://10.0.2.2:3000/posts");
+        return res?.data; 
+    } catch (error) {
+        console.log("Failed to get posts, home: ", error);
+        return null; 
+    }
+}
 // todo report post
