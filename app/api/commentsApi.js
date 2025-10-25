@@ -54,3 +54,13 @@ export const deleteComment = async (id) => {
         return false;
     }
 }
+
+export const getCommentReports = async () => {
+    try {
+        const res = await axios.get(`${base}/commentReports`); 
+        return res?.data; 
+    } catch (error) {
+        console.log("Failed to get reported comments: ", error); 
+        return null; 
+    }
+}

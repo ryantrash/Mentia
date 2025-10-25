@@ -27,5 +27,7 @@
       "likes": 2
     }
   ],
-  "comments": []
+  "comments": [],
+  "commentReports": [], 
+  "postReports": []
 }
