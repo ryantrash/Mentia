@@ -2,13 +2,13 @@ import axios from "axios";
 import { useRouter } from "expo-router";
 import React, { createContext, useContext, useState } from "react";
 import { Alert, Platform } from "react-native";
+import isProfane from "./filter";
 
 const AuthContext = createContext({
   user: { username: null, description: null, postDate: null, id: null, admin: false },
   base: null,
   attemptLogin: async (username, password) => false,
   createAccount: async (username, password) => false,
-  createPost: async (uri, title, content) => false,
   updateDesc: async (newDesc) => false,
   checkUser: () => false,
 });
@@ -51,6 +51,10 @@ const AuthProvider = ({ children }) => {
   };
 
   const createAccount = async (username, password) => {
+    if(isProfane(username)){
+      Alert.alert("Username Contains Profanity.", "Please change username and try again."); 
+      return false; 
+    }
     try {
       const getRes = await axios.get(`${base}/users`, {
         params: { username },
@@ -81,57 +85,6 @@ const AuthProvider = ({ children }) => {
     }
   }
 
-  const createPost = async (uri, title, content) => {
-    checkUser();
-    if (!user) {
-      Alert.alert("User not logged in");
-      return false;
-    }
-
-    const date = new Date;
-    const today = date.toDateString();
-    let res;
-    try {
-      res = await axios.get(`${base}/users/${user.id}`);
-    } catch (error) {
-      console.log("Failed to get user, createPost: ", error);
-      return false;
-    }
-    const postDate = res ? res?.data?.postDate : null;
-
-    if (user.postDate === today) {
-      Alert.alert("You've already posted once today!", "Come back later to post again.");
-      return true;
-    }
-
-    try {
-      await axios.post(`${base}/posts`, {
-        title,
-        content,
-        username: user.username,
-        date: today,
-        image: uri,
-        likes: 0,
-      }, {
-        headers: { 'Content-Type': "application/json" }
-      })
-
-      await axios.patch(`${base}/users/${user.id}`, {
-        postDate: today
-      });
-
-      setUser(prevUser => ({
-        ...prevUser,
-        postDate: today,
-      }))
-      return true;
-    } catch (error) {
-      console.log("Upload failed: ", error);
-      Alert.alert("Upload Failed")
-      return false;
-    }
-  }
-
   const updateDesc = async (newDesc) => {
     checkUser();
     try {
@@ -158,7 +111,7 @@ const AuthProvider = ({ children }) => {
     return true;
   }
 
-  return <AuthContext.Provider value={{ user, base, attemptLogin, createAccount, createPost, updateDesc, checkUser }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, base, attemptLogin, createAccount, updateDesc, checkUser }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

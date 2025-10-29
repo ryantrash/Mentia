@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import React, { useState } from "react";
 import { Alert, Text, TouchableHighlight } from "react-native";
 import { useAuth } from './AuthProvider';
+import { createPost } from './api/postsApi';
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import ImageInput from "./components/ImageInput";
@@ -13,7 +14,7 @@ export default function CreatePost() {
     const [uri, setUri] = useState("");
     const router = useRouter();
 
-    const { createPost } = useAuth();
+    const { user } = useAuth();
 
     // setting state variables
     const updateUri = (uri: string) => {
@@ -29,7 +30,7 @@ export default function CreatePost() {
 
     const handleSubmit = async () => {
         if (uri && title && content) {
-            const ok = await createPost(uri, title, content); 
+            const ok = await createPost(uri, title, content, user); 
             if(ok){
                 router.navigate("./Home"); 
             }

@@ -1,8 +1,8 @@
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { deleteComment, getCommentReports } from "./api/commentsApi";
-import { deletePost, getPostReports } from "./api/postsApi";
+import { cancelCommentReport, deleteComment, getCommentReports } from "./api/commentsApi";
+import { cancelPostReport, deletePost, getPostReports } from "./api/postsApi";
 import { useAuth } from "./AuthProvider";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -44,6 +44,16 @@ export default function Admin() {
         }
     }
 
+    const followCancel = async (id: string, post: boolean) => {
+        if (post) {
+            cancelPostReport(id);
+            setPostReports(prev => prev.filter(report => report.id !== id));
+        } else {
+            cancelCommentReport(id);
+            setCommentReports(prev => prev.filter(report => report.id !== id));
+        }
+    }
+
     return (
         <View style={styles.container}>
             <Header />
@@ -54,14 +64,15 @@ export default function Admin() {
             <Text>Post Reports: </Text>
             <ScrollView>
                 {postReports.map((report,) => {
-                    return(
-                        <Report 
+                    return (
+                        <Report
                             id={report.id}
                             key={report.id}
                             username={report.username}
                             content={report.content}
-                            post={true} 
+                            post={true}
                             onDelete={followReport}
+                            onCancel={followCancel}
                         />
                     );
                 })}
@@ -70,14 +81,15 @@ export default function Admin() {
             <Text>Comment Reports: </Text>
             <ScrollView>
                 {commentReports.map((report) => {
-                    return(
-                        <Report 
+                    return (
+                        <Report
                             id={report.id}
                             key={report.id}
                             username={report.username}
                             content={report.content}
                             post={true}
                             onDelete={followReport}
+                            onCancel={followCancel}
                         />
                     );
                 })}
@@ -90,6 +102,6 @@ export default function Admin() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1, 
+        flex: 1,
     }
 })

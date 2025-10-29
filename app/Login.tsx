@@ -35,9 +35,7 @@ export default function Login() {
         } 
         const ok = await createAccount(createUser, createPass); 
         if(ok){
-            router.navigate("/Home" as any ); 
-        } else {
-            Alert.alert("Username already taken", "Please select another username")
+            router.navigate("./Home"); 
         }
     }
 

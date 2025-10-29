@@ -3,7 +3,7 @@ import React from "react";
 import { Text, TouchableHighlight, View } from "react-native";
 import { deleteUser } from "../api/userApi";
 
-export default function Report({id, username, content, post, onDelete}: any){
+export default function Report({id, username, content, post, onDelete, onCancel}: any){
 
     const handleDelete = () => {
         onDelete(id, post); 
@@ -14,6 +14,9 @@ export default function Report({id, username, content, post, onDelete}: any){
         onDelete(id, post); 
     }   
 
+    const handleCancelReport = async () => {
+        onCancel(id, post); 
+    }
     return (
         <View>
             <TouchableHighlight>
@@ -30,7 +33,7 @@ export default function Report({id, username, content, post, onDelete}: any){
                 </View>
             </TouchableHighlight>
 
-            <TouchableHighlight>
+            <TouchableHighlight onPress={handleCancelReport}>
                 <View>
                     <Ionicons name="checkmark"/>
                     <Text>Cancel Report</Text>

@@ -1,9 +1,14 @@
 import axios from "axios";
-import { Platform } from "react-native";
+import { Alert, Platform } from "react-native";
+import isProfane from "../filter";
 
 const base = Platform.OS === "android" ? "http://10.0.2.2:3000" : "http://localhost:3000"
 
 export const uploadComment = async (username, comment, id) => {
+    if(isProfane(comment)){
+        Alert.alert("Profanity Detected", "Your comment contains content we deem as innappropriate. Please change the content and try again.");
+        return false; 
+    }
     try {
         axios.post(`${base}/comments`, {
             postId: id,
@@ -76,5 +81,15 @@ export const getCommentReports = async () => {
     } catch (error) {
         console.log("Failed to get reported comments: ", error);
         return null;
+    }
+}
+
+export const cancelCommentReport = async (id) => {
+    try {
+        await axios.delete(`${base}/commentReports/${id}`); 
+        return true; 
+    } catch (error){
+        console.log("Failed to cancel comment report: ", error); 
+        return false; 
     }
 }
