@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -61,7 +62,8 @@ export default function ImageInput({updateUri}: ImageInputProps) {
                     </View>
                 </Modal>
                 {image === "" ?
-                    <Image source={require("../../assets/images/addImage.png")} /> :
+                    <Ionicons name="image-outline" size={300} color={"white"}/> 
+                    :
                     <View>
                         <Image source={{ uri: image }} style={styles.imagePreview} />
                         <TouchableOpacity onPress={toggleModal}><Text>Change Image</Text></TouchableOpacity>
