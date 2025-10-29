@@ -17,17 +17,7 @@
       "admin": true
     }
   ],
-  "posts": [
-    {
-      "id": "7733",
-      "title": "test",
-      "content": "testststststststsastastast",
-      "username": "test",
-      "date": "Wed Oct 29 2025",
-      "image": "file:///data/user/0/host.exp.exponent/cache/ImagePicker/40867f9b-bb51-4a5a-945c-a433774ed2c4.jpeg",
-      "likes": 0
-    }
-  ],
+  "posts": [],
   "comments": [],
   "commentReports": [],
   "postReports": []

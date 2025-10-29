@@ -1,8 +1,9 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Alert, StyleSheet, Text, TouchableHighlight, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import { useAuth } from "./AuthProvider";
 import { createPost } from './api/postsApi';
+import Footer from "./components/Footer";
 import Header from "./components/Header";
 import ImageInput from "./components/ImageInput";
 import PostTextInputs from "./components/PostTextInputs";
@@ -37,35 +38,46 @@ export default function CreatePost() {
     }
     return (
         <>
-            <Header />
-            <ImageInput updateUri={updateUri} />
+            <Header /> 
+            <View style={styles.container}>
+                <ScrollView contentContainerStyle={styles.scroll}>
+                    <View style={styles.card}>
+                        <Text style={styles.headerText}>Create a New Post</Text>
+                        <ImageInput updateUri={setUri} />
+                    </View>
 
-            <View style={styles.section}>
-                <Text style={styles.sectionHeader}>Post Details</Text>
-                <PostTextInputs updateTitle={updateTitle} updateContent={updateContent} />
+                    <View style={[styles.card, styles.section]}>
+                        <Text style={styles.sectionHeader}>Post Details</Text>
+                        <PostTextInputs updateTitle={setTitle} updateContent={setContent} />
+                    </View>
+
+                    <TouchableHighlight
+                        underlayColor="#1E3A2E"
+                        style={styles.button}
+                        onPress={handleSubmit}
+                    >
+                        <Text style={styles.buttonText}>Upload</Text>
+                    </TouchableHighlight>
+                </ScrollView>
             </View>
-
-            <TouchableHighlight
-                underlayColor="#1E3A2E"
-                style={styles.button}
-                onPress={handleSubmit}
-            >
-                <Text style={styles.buttonText}>Upload</Text>
-            </TouchableHighlight>
-    </>
-  );
+            <Footer />
+        </>
+    );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flexGrow: 1,
+        flex: 1,
         backgroundColor: "#0F1F1A",
+    },
+    scroll: {
+        flexGrow: 1,
         alignItems: "center",
         justifyContent: "flex-start",
         padding: 20,
     },
     card: {
-        width: "92%",
+        width: "100%",
         backgroundColor: "#162820",
         borderRadius: 18,
         padding: 20,
@@ -73,21 +85,18 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 8,
         shadowOffset: { width: 0, height: 4 },
-        marginBottom: 30,
+        marginBottom: 25,
     },
     headerText: {
         color: "#98FFCC",
-        fontSize: 26,
+        fontSize: 24,
         fontWeight: "700",
         textAlign: "center",
-        marginBottom: 20,
+        marginBottom: 15,
         fontFamily: "FunnelSans-VariableFont_wght",
     },
     section: {
         backgroundColor: "#1E3A2E",
-        borderRadius: 12,
-        padding: 15,
-        marginBottom: 20,
     },
     sectionHeader: {
         color: "#68D8A2",
@@ -100,12 +109,13 @@ const styles = StyleSheet.create({
         backgroundColor: "#68D8A2",
         borderRadius: 14,
         paddingVertical: 14,
-        paddingHorizontal: 30,
+        paddingHorizontal: 40,
         alignSelf: "center",
         shadowColor: "#000",
         shadowOpacity: 0.3,
         shadowRadius: 6,
         shadowOffset: { width: 0, height: 3 },
+        marginBottom: 30,
     },
     buttonText: {
         color: "#0F1F1A",

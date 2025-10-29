@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useAuth } from '../AuthProvider';
 import { deleteComment, fetchComments, uploadComment } from '../api/commentsApi';
 import Comment from './Comment';
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
 decoInput: {
     width: "100%",
     backgroundColor: "#1E3A2E",
-    color: "#E0F7EE"
+    color: "#E0F7EE",
     borderRadius: 12,
     padding: 12,
     fontSize: 16,

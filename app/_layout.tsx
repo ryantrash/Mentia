@@ -9,7 +9,7 @@ export default function RootLayout() {
         <Stack.Screen name={"Login"} />
         <Stack.Screen name={"Home"} />
         <Stack.Screen name={"CreatePost"} />
-        <Stack.Screen name={"PostView"} />
+        <Stack.Screen name={"postView"} />
         <Stack.Screen name={"Profile"} /> 
         <Stack.Screen name={"Admin"} />
       </Stack>
