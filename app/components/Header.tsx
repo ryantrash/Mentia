@@ -21,7 +21,7 @@ export default function Header() {
 
 const style = StyleSheet.create({
     banner: {
-        backgroundColor: "#1e1e1e",
+        backgroundColor: "#000",
         width: "100%",
         justifyContent: "center",
         alignItems: "center",

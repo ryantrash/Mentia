@@ -58,9 +58,9 @@ export default function CreatePost() {
                     >
                         <Text style={styles.buttonText}>Upload</Text>
                     </TouchableHighlight>
+                    <Footer />
                 </ScrollView>
             </View>
-            <Footer />
         </>
     );
 }

@@ -2,25 +2,25 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 interface PostTextInputsProps {
-  updateTitle: (text: string) => void;
-  updateContent: (text: string) => void;
+    updateTitle: (text: string) => void;
+    updateContent: (text: string) => void;
 }
 
 export default function PostTextInputs({ updateTitle, updateContent }: PostTextInputsProps) {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const maxTitleLength = 30;
-  const maxContentLength = 300;
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const maxTitleLength = 30;
+    const maxContentLength = 300;
 
-  const handleTitleChange = (text: string) => {
-    setTitle(text);
-    updateTitle(text);
-  };
+    const handleTitleChange = (text: string) => {
+        setTitle(text);
+        updateTitle(text);
+    };
 
-  const handleContentChange = (text: string) => {
-    setContent(text);
-    updateContent(text);
-  };
+    const handleContentChange = (text: string) => {
+        setContent(text);
+        updateContent(text);
+    };
 
   return (
     <View style={styles.container}>
