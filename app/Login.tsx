@@ -1,13 +1,13 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
-  Alert,
-  Modal,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Alert,
+    Modal,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "./AuthProvider";
@@ -23,31 +23,29 @@ export default function Login() {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const handleLogin = async () => {
-    if (!username || !password) {
-      Alert.alert("Missing fields", "Enter username and password");
-      return;
+    const handleLogin = async () => {
+        if (!username || !password) {
+            Alert.alert("Missing fields", "Enter username and password");
+            return;
+        }
+        const ok = await attemptLogin(username, password);
+        if (ok) {
+            router.navigate("./Home");
+        } else {
+            Alert.alert("Username or Password Incorrect", "Check both fields");
+        }
     }
-    const ok = await attemptLogin(username, password);
-    if (ok) {
-      router.navigate("/Home");
-    } else {
-      Alert.alert("Username or Password Incorrect", "Check both fields");
-    }
-  };
 
-  const handleCreateAccount = async () => {
-    if (!createUser || !createPass) {
-      Alert.alert("Missing fields");
-      return;
+    const handleCreateAccount = async () => {
+        if(!createUser || !createPass){
+            Alert.alert("missing fields"); 
+            return; 
+        } 
+        const ok = await createAccount(createUser, createPass); 
+        if(ok){
+            router.navigate("./Home"); 
+        }
     }
-    const ok = await createAccount(createUser, createPass);
-    if (ok) {
-      router.navigate("/Home");
-    } else {
-      Alert.alert("Username already taken", "Please select another username");
-    }
-  };
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);

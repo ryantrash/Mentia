@@ -2,15 +2,15 @@ import axios from "axios";
 import { useRouter } from "expo-router";
 import React, { createContext, useContext, useState } from "react";
 import { Alert, Platform } from "react-native";
+import isProfane from "./filter";
 
 const AuthContext = createContext({
-  user: { username: null, description: null, postDate: null, id: null },
+  user: { username: null, description: null, postDate: null, id: null, admin: false },
   base: null,
   attemptLogin: async (username, password) => false,
   createAccount: async (username, password) => false,
-  createPost: async (uri, title, content) => false,
   updateDesc: async (newDesc) => false,
-  checkUser: () => false, 
+  checkUser: () => false,
 });
 
 const AuthProvider = ({ children }) => {
@@ -27,15 +27,13 @@ const AuthProvider = ({ children }) => {
 
       if (Array.isArray(res.data) && res.data.length > 0) {
         try {
-          const res = await axios.get(`${base}/users`, {
-            params: { username },
-          });
-          const row = res.data[0];
+          const row = res?.data[0];
           setUser({
             username: row.username,
             description: row.description,
             postDate: row.postDate,
-            id: row.id
+            id: row.id,
+            admin: row?.admin
           })
           return true;
         } catch (err) {
@@ -53,6 +51,10 @@ const AuthProvider = ({ children }) => {
   };
 
   const createAccount = async (username, password) => {
+    if(isProfane(username)){
+      Alert.alert("Username Contains Profanity.", "Please change username and try again."); 
+      return false; 
+    }
     try {
       const getRes = await axios.get(`${base}/users`, {
         params: { username },
@@ -73,67 +75,18 @@ const AuthProvider = ({ children }) => {
         });
         return true;
       } else {
+        // Todo, alert user on this case
         console.log("username already exists");
         return false;
       }
     } catch (err) {
-      console.log(err);
-      return false;
-    }
-  }
-
-  const createPost = async (uri, title, content) => {
-    checkUser(); 
-    if (!user) {
-      Alert.alert("User not logged in");
-      return false;
-    }
-
-    const date = new Date;
-    const today = date.toDateString();
-    try {
-      const res = await axios.get(`${base}/users/${user.id}`);
-    } catch (error) {
-      console.log("Failed to get user, createPost: ", error);
-      return false;
-    }
-    const postDate = res.data?.postDate;
-
-    if (user.postDate === today) {
-      Alert.alert("You've already posted once today!", "Come back later to post again.");
-      return true;
-    }
-
-    try {
-      await axios.post(`${base}/posts`, {
-        title,
-        content,
-        username: user.username,
-        date: today,
-        image: uri,
-        likes: 0,
-      }, {
-        headers: { 'Content-Type': "application/json" }
-      })
-
-      await axios.patch(`${base}/users/${user.id}`, {
-        postDate: today
-      });
-
-      setUser(prevUser => ({
-        ...prevUser,
-        postDate: today,
-      }))
-      return true;
-    } catch (error) {
-      console.log("Upload failed: ", error);
-      Alert.alert("Upload Failed")
+      console.log("Failed to create account: " + err);
       return false;
     }
   }
 
   const updateDesc = async (newDesc) => {
-    checkUser(); 
+    checkUser();
     try {
       await axios.patch(`${base}/users/${user.id}`, {
         description: newDesc
@@ -145,7 +98,7 @@ const AuthProvider = ({ children }) => {
       }));
       return true;
     } catch (error) {
-      console.log(error);
+      console.log("Failed to update description: " + error);
       return false;
     }
   }
@@ -153,12 +106,12 @@ const AuthProvider = ({ children }) => {
   const checkUser = () => {
     if (!user) {
       router.navigate("/Login");
-      return false; 
+      return false;
     }
-    return true; 
+    return true;
   }
 
-  return <AuthContext.Provider value={{ user, base, attemptLogin, createAccount, createPost, updateDesc, checkUser }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, base, attemptLogin, createAccount, updateDesc, checkUser }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

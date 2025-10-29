@@ -5,40 +5,30 @@
       "password": "test",
       "description": "test description",
       "id": "7839",
-      "postDate": "Tue Oct 14 2025"
+      "postDate": "Wed Oct 29 2025",
+      "admin": false
+    },
+    {
+      "username": "admin",
+      "password": "admin",
+      "description": "admin desc",
+      "id": "0000",
+      "postDate": "Mon Oct 13 2025",
+      "admin": true
     }
   ],
   "posts": [
     {
-      "id": "f5ec",
-      "title": "Test Post",
-      "content": "I am testing post functionality. This is a test for post functionality. I am testing this feature. I love this feature. This feature is great. I want to keep adding text to test multi-line inputs. Blah blah blah, important post here. This is a good post, a great post if anything!!! I love posting, post post post. ",
+      "id": "7733",
+      "title": "test",
+      "content": "testststststststsastastast",
       "username": "test",
-      "postDate": "Mon Oct 13 2025",
-      "image": "file:///data/user/0/host.exp.exponent/cache/ImagePicker/2aa5c055-7a59-47f1-adbe-d100b8bf8a94.jpeg",
-      "likes": 2
+      "date": "Wed Oct 29 2025",
+      "image": "file:///data/user/0/host.exp.exponent/cache/ImagePicker/40867f9b-bb51-4a5a-945c-a433774ed2c4.jpeg",
+      "likes": 0
     }
   ],
-  "comments": [
-    {
-      "postId": "f5ec",
-      "username": "test2",
-      "content": "test comment",
-      "likes": 0,
-      "id": "e32f"
-    },
-    {
-      "id": "1760830994086",
-      "postId": "f5ec",
-      "username": "test",
-      "content": "new comment",
-      "likes": 0
-    },
-    {
-      "id": "1760899984359",
-      "postId": "f5ec",
-      "username": "test",
-      "content": "tst"
-    }
-  ]
+  "comments": [],
+  "commentReports": [],
+  "postReports": []
 }

@@ -22,9 +22,6 @@ export default function ImageInput({updateUri}: ImageInputProps) {
         if (!result.canceled && result.assets?.length) {
             const uri = result.assets[0].uri;
             handleImageSelect(uri); 
-            console.log(uri);
-        } else {
-            console.log("CANCELLED - Image Select");
         }
         toggleModal();
     }
@@ -37,8 +34,6 @@ export default function ImageInput({updateUri}: ImageInputProps) {
             const uri = result.assets[0].uri;
             handleImageSelect(uri)
             console.log(uri);
-        } else {
-            console.log("CANCELLED - Image Take");
         }
         toggleModal();
     }

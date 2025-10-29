@@ -1,33 +1,33 @@
 import { Ionicons } from "@expo/vector-icons";
-import axios from "axios";
 import React, { useState } from "react";
-import { Alert, StyleSheet, Text, TouchableHighlight, View } from "react-native";
+import { Modal, StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import { useAuth } from "../AuthProvider";
+import { handleLike, reportComment } from "../api/commentsApi";
 
-export default function Comment({ username, content, likes, id, key }: any) {
-    const { base, checkUser } = useAuth(); 
+export default function Comment({ username, content, likes, cid, key, deleteComment }: any) {
+    const { user } = useAuth();
+    const admin = user.admin; 
     const [liked, setLiked] = useState(false);
-    const init_likes = Number(likes) || 0; 
-    const [likeCount, setLikeCount] = useState(init_likes); 
+    const init_likes = Number(likes) || 0;
+    const [likeCount, setLikeCount] = useState(init_likes);
+    const [showOptions, setShowOptions] = useState(false);
     // test comment
-    const handleLike = async () => {
-        if(!checkUser){
-            return; 
-        }
-        const delta = liked ? -1 : 1; 
-        
-        setLiked(!liked); 
-        setLikeCount(likeCount + delta); 
-        const newLikes = likeCount + delta; 
+    const handleCommentLike = async () => {
+        const res = await handleLike(cid, likeCount, liked);
+        setLikeCount(res);
+        setLiked(!liked);
+    }
 
-        try {
-            await axios.patch(`${base}/comments/${id}`, {
-                likes: newLikes, 
-            }); 
-        } catch(error){
-            Alert.alert("Comment Like Failed"); 
-            console.log(error); 
-        }
+    const handleShowOptions = () => {
+        setShowOptions(!showOptions);
+    }
+
+    const handleDelete = () => {
+        deleteComment(cid);
+    }
+
+    const handleReport = () => {
+        reportComment(cid, username, content); 
     }
 
     return (
@@ -41,10 +41,45 @@ export default function Comment({ username, content, likes, id, key }: any) {
                 </Text>
             </View>
             <View>
-                <TouchableHighlight onPress={handleLike}>
+                <TouchableHighlight onPress={handleCommentLike}>
                     <Ionicons name={"heart-outline"} color={liked ? "green" : "white"} size={30} />
                 </TouchableHighlight>
+                <Text style={{ color: "white" }}>
+                    {likeCount}
+                </Text>
+                <TouchableHighlight onPress={handleShowOptions}>
+                    <Ionicons name={"ellipsis-vertical"} color={"white"} />
+                </TouchableHighlight>
             </View>
+
+            <Modal visible={showOptions} transparent>
+                <View style={styles.modal}>
+                    <View style={styles.modalView}>
+                        <View style={{ justifyContent: "space-between", flexDirection: "row", gap: 30 }}>
+                            <Text style={styles.modalContent}>Options</Text>
+                            <TouchableHighlight onPress={handleShowOptions}>
+                                <Ionicons name="close-outline" color={"white"} />
+                            </TouchableHighlight>
+                        </View>
+                        <View>
+                            {(user.username === username || admin ) &&
+                                <TouchableHighlight onPress={handleDelete}>
+                                    <View>
+                                        <Ionicons name="trash-bin" color="white" />
+                                        <Text style={styles.modalContent}>Delete Comment</Text>
+                                    </View>
+                                </TouchableHighlight>
+                            }
+                            <TouchableHighlight onPress={handleReport}>
+                                <View>
+                                    <Ionicons name="flag" color="white"/>
+                                    <Text style={styles.modalContent}>Report Comment</Text>
+                                </View>
+                            </TouchableHighlight>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     )
 }
@@ -61,5 +96,19 @@ const styles = StyleSheet.create({
     },
     content: {
         color: "white",
+    },
+    modal: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    modalView: {
+        backgroundColor: "rgba(0,0,0,0.8)",
+        alignItems: "center",
+        padding: 50,
+
+    },
+    modalContent: {
+        color: "white"
     }
 })

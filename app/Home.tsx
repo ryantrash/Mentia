@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from "react-native";
+import { fetchPosts } from './api/postsApi';
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Post from "./components/Post";
@@ -9,16 +9,11 @@ export default function Index() {
   const [posts, setPosts] = useState<any[]>([]);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const res = await axios.get("http://10.0.2.2:3000/posts");
-        setPosts(res.data);
-      } catch (error) {
-        console.log("Failed to get posts, home: ", error);
-      }
+    const getPosts = async () => {
+      const data = await fetchPosts();
+      setPosts(data);
     }
-
-    fetchPosts();
+    getPosts(); 
   }, [])
 
   const renderedPosts = posts.map((post) => {
@@ -29,6 +24,7 @@ export default function Index() {
         content={post.content}
         image={post.image}
         likes={post.likes}
+        postDate={post.postDate}
         id={post.id}
         key={post.id}
       />

@@ -1,10 +1,13 @@
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Text, TextInput, TouchableHighlight, View, StyleSheet, ScrollView } from "react-native";
+import { ScrollView, StyleSheet, Text, TextInput, TouchableHighlight, View } from "react-native";
 import { useAuth } from "./AuthProvider";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 
 export default function Profile() {
+  const router = useRouter(); 
   const { user, updateDesc } = useAuth();
   const _init_desc_ = user.description ? user.description : "";
   const [desc, setDesc] = useState(_init_desc_);
@@ -23,6 +26,10 @@ export default function Profile() {
       setEditDesc(true);
     }
   };
+
+  const handleLogout = () => {
+    router.navigate("./Login"); 
+  }
 
   return (
     <>
@@ -54,9 +61,15 @@ export default function Profile() {
           </TouchableHighlight>
 
           {editDesc && (
-            <Text style={styles.editingNote}>✎ You’re currently editing your description</Text>
+            <Text style={styles.editingNote}>You’re currently editing your description</Text>
           )}
         </View>
+        <TouchableHighlight onPress={handleLogout}>
+          <View>
+            <Ionicons name="log-out" />
+            <Text>Log Out</Text>
+          </View>
+        </TouchableHighlight>
       </ScrollView>
       <Footer />
     </>

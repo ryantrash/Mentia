@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { useAuth } from '../AuthProvider';
 
-export default function Post({ title, username, content, image, likes, id }: any) {
+export default function Post({ title, username, content, image, likes, postDate, id }: any) {
     const router = useRouter();
     const { base } = useAuth();
     const preview = content.length > 80 ? content.substring(0, 80) : null;
@@ -15,9 +15,9 @@ export default function Post({ title, username, content, image, likes, id }: any
 
     const handlePress = async () => {
         router.push({
-            pathname: "/PostView",
-            params: { title, content, image, liked: liked.toString(), username, id }
-        });
+            pathname: "./postView",
+            params: { title, content, image, liked: liked.toString(), username, postDate, id }
+        } as any);
 
     }
 
@@ -31,7 +31,7 @@ export default function Post({ title, username, content, image, likes, id }: any
         try {
             const res = axios.patch(`${base}posts/${id}`, { likes: newLikes });
         } catch (error: any) {
-            console.log(error);
+            console.log("Post like failed: " + error);
         }
     }
 
