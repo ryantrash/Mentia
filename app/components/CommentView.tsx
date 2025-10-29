@@ -59,3 +59,67 @@ export default function CommentView({ id }: any) {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    backgroundColor: "#0F1F1A",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    padding: 20,
+  },
+  card: {
+    width: "92%",
+    backgroundColor: "#162820",
+    borderRadius: 18,
+    padding: 25,
+    shadowColor: "#000",
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    alignItems: "center",
+  },
+  username: {
+    color: "#98FFCC",
+    fontSize: 26,
+    fontWeight: "700",
+    marginBottom: 20,
+    fontFamily: "FunnelSans-VariableFont_wght",
+  },
+decoInput: {
+    width: "100%",
+    backgroundColor: "#1E3A2E",
+    color: "#E0F7EE"
+    borderRadius: 12,
+    padding: 12,
+    fontSize: 16,
+    fontFamily: "FunnelSans-VariableFont_wght",
+    minHeight: 80,
+    textAlignVertical: "top",
+    marginBottom: 20,
+    },
+    descInputActive: {
+    borderColor: "#68D8A2",
+    borderWidth: 2,
+  },
+  button: {
+    backgroundColor: "#68D8A2",
+    borderRadius: 14,
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    shadowColor: "#000",
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 3 },
+  },
+  buttonText: {
+    color: "#0F1F1A",
+    fontSize: 18,
+    fontWeight: "700",
+    textAlign: "center",
+    fontFamily: "FunnelSans-VariableFont_wght",
+  },
+});
+
+    
+    
