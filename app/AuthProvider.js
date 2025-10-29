@@ -10,7 +10,7 @@ const AuthContext = createContext({
   createAccount: async (username, password) => false,
   createPost: async (uri, title, content) => false,
   updateDesc: async (newDesc) => false,
-  checkUser: () => false, 
+  checkUser: () => false,
 });
 
 const AuthProvider = ({ children }) => {
@@ -19,7 +19,7 @@ const AuthProvider = ({ children }) => {
   const router = useRouter();
   const base = Platform.OS === "android" ? "http://10.0.2.2:3000" : "http://localhost:3000";
 
-  const attemptLogin = async (username, password) => {  
+  const attemptLogin = async (username, password) => {
     try {
       const res = await axios.get(`${base}/users`, {
         params: { username, password },
@@ -33,7 +33,7 @@ const AuthProvider = ({ children }) => {
             description: row.description,
             postDate: row.postDate,
             id: row.id,
-            admin: row?.admin  
+            admin: row?.admin
           })
           return true;
         } catch (err) {
@@ -82,7 +82,7 @@ const AuthProvider = ({ children }) => {
   }
 
   const createPost = async (uri, title, content) => {
-    checkUser(); 
+    checkUser();
     if (!user) {
       Alert.alert("User not logged in");
       return false;
@@ -90,13 +90,14 @@ const AuthProvider = ({ children }) => {
 
     const date = new Date;
     const today = date.toDateString();
+    let res;
     try {
-      const res = await axios.get(`${base}/users/${user.id}`);
+      res = await axios.get(`${base}/users/${user.id}`);
     } catch (error) {
       console.log("Failed to get user, createPost: ", error);
       return false;
     }
-    const postDate = res.data?.postDate;
+    const postDate = res ? res?.data?.postDate : null;
 
     if (user.postDate === today) {
       Alert.alert("You've already posted once today!", "Come back later to post again.");
@@ -132,7 +133,7 @@ const AuthProvider = ({ children }) => {
   }
 
   const updateDesc = async (newDesc) => {
-    checkUser(); 
+    checkUser();
     try {
       await axios.patch(`${base}/users/${user.id}`, {
         description: newDesc
@@ -152,9 +153,9 @@ const AuthProvider = ({ children }) => {
   const checkUser = () => {
     if (!user) {
       router.navigate("/Login");
-      return false; 
+      return false;
     }
-    return true; 
+    return true;
   }
 
   return <AuthContext.Provider value={{ user, base, attemptLogin, createAccount, createPost, updateDesc, checkUser }}>{children}</AuthContext.Provider>;

@@ -37,11 +37,11 @@ export const handleLike = async (id, likeCount, liked) => {
         await axios.patch(`${base}/comments/${id}`, {
             likes: newLikes,
         });
-        return newLikes; 
+        return newLikes;
     } catch (error) {
         Alert.alert("Comment Like Failed");
         console.log("Like failed: " + error);
-        return -1; 
+        return -1;
     }
 }
 
@@ -55,12 +55,26 @@ export const deleteComment = async (id) => {
     }
 }
 
+export const reportComment = async (id, username, content) => {
+    try {
+        await axios.post(`${base}/commentReports`, {
+            id,
+            username, 
+            content 
+        });
+        return true; 
+    } catch (error) {
+        console.log("Failed to report comment", error); 
+        return false; 
+    }
+}
+
 export const getCommentReports = async () => {
     try {
-        const res = await axios.get(`${base}/commentReports`); 
-        return res?.data; 
+        const res = await axios.get(`${base}/commentReports`);
+        return res?.data;
     } catch (error) {
-        console.log("Failed to get reported comments: ", error); 
-        return null; 
+        console.log("Failed to get reported comments: ", error);
+        return null;
     }
 }

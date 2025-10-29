@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { Modal, StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import { useAuth } from "../AuthProvider";
-import { handleLike } from "../api/commentsApi";
+import { handleLike, reportComment } from "../api/commentsApi";
 
 export default function Comment({ username, content, likes, cid, key, deleteComment }: any) {
     const { user } = useAuth();
@@ -27,8 +27,7 @@ export default function Comment({ username, content, likes, cid, key, deleteComm
     }
 
     const handleReport = () => {
-        // placeholder
-        return; 
+        reportComment(cid, username, content); 
     }
 
     return (

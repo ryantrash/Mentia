@@ -4,7 +4,7 @@ import { useSearchParams } from "expo-router/build/hooks";
 import React, { useState } from "react";
 import { Alert, Image, Modal, ScrollView, StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import { useAuth } from "./AuthProvider";
-import { deletePost } from "./api/postsApi";
+import { deletePost, reportPost } from "./api/postsApi";
 import CommentView from "./components/CommentView";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -26,11 +26,16 @@ export default function postView() {
   }
   const handleDelete = async () => {
     const ok = await deletePost(id);
-    if(ok){
-      router.navigate("./Home");  
+    if (ok) {
+      router.navigate("./Home");
     } else {
-      Alert.alert("Failed to delete post"); 
+      Alert.alert("Failed to delete post");
     }
+  }
+
+  const handleReport = async () => {
+    await reportPost(id, username, content);
+    toggleShowOptions(); 
   }
 
   return (
@@ -61,7 +66,15 @@ export default function postView() {
       <Footer />
 
       <Modal visible={showOptions}>
-        <Text>Post Options</Text>
+        <View>
+          <Text>Post Options</Text>
+          <TouchableHighlight onPress={toggleShowOptions}>
+            <View>
+              <Ionicons name="close" />
+              <Text>Close Options</Text>
+            </View>
+          </TouchableHighlight>
+        </View>
         {(user.username === username || user.admin) &&
           <TouchableHighlight onPress={handleDelete}>
             <View>
@@ -70,6 +83,12 @@ export default function postView() {
             </View>
           </TouchableHighlight>
         }
+        <TouchableHighlight onPress={handleReport}>
+          <View>
+            <Ionicons name="flag" color="white" />
+            <Text>Report Post</Text>
+          </View>
+        </TouchableHighlight>
       </Modal>
     </>
   );
