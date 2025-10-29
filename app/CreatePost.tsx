@@ -38,7 +38,7 @@ export default function CreatePost() {
     }
     return (
         <>
-            <Header /> 
+            <Header />
             <View style={styles.container}>
                 <ScrollView contentContainerStyle={styles.scroll}>
                     <View style={styles.card}>
@@ -58,9 +58,10 @@ export default function CreatePost() {
                     >
                         <Text style={styles.buttonText}>Upload</Text>
                     </TouchableHighlight>
-                    <Footer />
+
                 </ScrollView>
             </View>
+            <Footer />
         </>
     );
 }

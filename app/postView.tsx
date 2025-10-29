@@ -35,7 +35,7 @@ export default function postView() {
 
   const handleReport = async () => {
     await reportPost(id, username, content);
-    toggleShowOptions(); 
+    toggleShowOptions();
   }
 
   return (
@@ -65,31 +65,34 @@ export default function postView() {
       </ScrollView>
       <Footer />
 
-      <Modal visible={showOptions}>
-        <View>
-          <Text>Post Options</Text>
-          <TouchableHighlight onPress={toggleShowOptions}>
-            <View>
-              <Ionicons name="close" />
-              <Text>Close Options</Text>
-            </View>
-          </TouchableHighlight>
-        </View>
-        {(user.username === username || user.admin) &&
-          <TouchableHighlight onPress={handleDelete}>
-            <View>
-              <Ionicons name="trash-bin" color="white" />
-              <Text>Delete Post</Text>
-            </View>
-          </TouchableHighlight>
-        }
-        <TouchableHighlight onPress={handleReport}>
-          <View>
-            <Ionicons name="flag" color="white" />
-            <Text>Report Post</Text>
+      <Modal transparent visible={showOptions}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalCard}>
+            <Text style={styles.modalHeader}>Post Options</Text>
+            <TouchableHighlight onPress={toggleShowOptions} style={styles.modalButton}>
+              <View style={styles.modalButtonInner}>
+                <Ionicons name="close" color="white" />
+                <Text style={styles.modalText}>Close Options</Text>
+              </View>
+            </TouchableHighlight>
+
+            {(user.username === username || user.admin) &&
+              <TouchableHighlight onPress={handleDelete} style={styles.modalButton}>
+                <View style={styles.modalButtonInner} >
+                  <Ionicons name="trash-bin" color="white" />
+                  <Text style={styles.modalText}>Delete Post</Text>
+                </View>
+              </TouchableHighlight>
+            }
+            <TouchableHighlight onPress={handleReport} style={styles.modalButton}>
+              <View style={styles.modalButtonInner}>
+                <Ionicons name="flag" color="white" />
+                <Text style={styles.modalText}>Report Post</Text>
+              </View>
+            </TouchableHighlight>
           </View>
-        </TouchableHighlight>
-      </Modal>
+        </View >
+      </Modal >
     </>
   );
 }
@@ -174,6 +177,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
   },
+  modalCard: {
+    width: "88%",
+    backgroundColor: "#162820",
+    borderRadius: 18,
+    padding: 25,
+    shadowColor: "#000",
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    alignItems: "center",
+  },
   modalContainer: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.7)",
@@ -191,21 +205,23 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 5 },
   },
   modalHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  modalTitle: {
     color: "#98FFCC",
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: "700",
+    marginBottom: 20,
     fontFamily: "FunnelSans-VariableFont_wght",
   },
   modalButton: {
-    borderRadius: 12,
-    paddingVertical: 10,
-    marginBottom: 10,
+    backgroundColor: "#68D8A2",
+    borderRadius: 14,
+    paddingVertical: 14,
+    paddingHorizontal: 30,
+    marginVertical: 12, 
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 3 },
   },
   modalButtonInner: {
     flexDirection: "row",

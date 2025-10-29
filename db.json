@@ -28,7 +28,15 @@
       "likes": 0
     }
   ],
-  "comments": [],
+  "comments": [
+    {
+      "id": "1761762650531",
+      "postId": "f077",
+      "username": "test",
+      "content": "asda",
+      "likes": 0
+    }
+  ],
   "commentReports": [],
   "postReports": []
 }

@@ -29,7 +29,7 @@ export default function Post({ title, username, content, image, likes, postDate,
         setLikeCount(likeCount + delta);
         const newLikes = likeCount + delta;
         try {
-            const res = axios.patch(`${base}posts/${id}`, { likes: newLikes });
+            const res = axios.patch(`${base}/posts/${id}`, { likes: newLikes });
         } catch (error: any) {
             console.log("Post like failed: " + error);
         }
