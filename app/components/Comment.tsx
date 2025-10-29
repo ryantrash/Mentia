@@ -109,6 +109,6 @@ const styles = StyleSheet.create({
 
     },
     modalContent: {
-        color: "#fff"
+        color: "white"
     }
 })
