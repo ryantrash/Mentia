@@ -92,6 +92,12 @@ const styles = StyleSheet.create({
     fontFamily: 'FunnelSans-VariableFont_wght',
     minHeight: 40,
   },
+  warning: {
+    color: '#FFBABA',
+    fontSize: 14,
+    marginTop: 5,
+    fontFamily: 'FunnelSans-VariableFont_wght',
+  },
   contentInput: {
     height: 100,
     textAlignVertical: 'top',
