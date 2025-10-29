@@ -62,8 +62,8 @@ export default function postView() {
             <CommentView id={id} />
           </View>
         </View>
+         <Footer />
       </ScrollView>
-      <Footer />
 
       <Modal visible={showOptions}>
         <View>
