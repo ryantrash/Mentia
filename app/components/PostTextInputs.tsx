@@ -25,23 +25,23 @@ export default function PostTextInputs({ updateTitle, updateContent }: PostTextI
   return (
     <View style={styles.container}>
       <View style={styles.section}>
-        <Text>Title: (Max Length 30)</Text>
+        <Text style={styles.label}>Title (Max Length 30)</Text>
         <TextInput
           style={styles.input}
           maxLength={maxTitleLength}
           value={title}
           onChangeText={handleTitleChange}
           placeholder="Enter title..."
-          placeholderTextColor="#ccc"
+          placeholderTextColor="#68D8A2"
         />
         {title.length === maxTitleLength && (
-          <Text>Title must be less than 30 characters</Text>
+          <Text style={styles.warning}>Title must be less than 30 characters</Text>
         )}
-        <Text>{title.length} / {maxTitleLength}</Text>
+        <Text style={styles.counter}>{title.length} / {maxTitleLength}</Text>
       </View>
 
       <View style={styles.section}>
-        <Text>Content:</Text>
+        <Text style={styles.label}>Content</Text>
         <TextInput
           style={[styles.input, styles.contentInput]}
           multiline
@@ -49,12 +49,12 @@ export default function PostTextInputs({ updateTitle, updateContent }: PostTextI
           value={content}
           onChangeText={handleContentChange}
           placeholder="Write your post..."
-          placeholderTextColor="#ccc"
+          placeholderTextColor="#68D8A2"
         />
         {content.length === maxContentLength && (
-          <Text>Content must be less than 300 characters</Text>
+          <Text style={styles.warning}>Content must be less than 300 characters</Text>
         )}
-        <Text>{content.length} / {maxContentLength}</Text>
+        <Text style={styles.counter}>{content.length} / {maxContentLength}</Text>
       </View>
     </View>
   );
@@ -62,17 +62,46 @@ export default function PostTextInputs({ updateTitle, updateContent }: PostTextI
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#0F1F1A',
+    padding: 20,
     flex: 1,
   },
   section: {
-    marginBottom: 20,
+    backgroundColor: '#162820',
+    borderRadius: 16,
+    padding: 15,
+    marginBottom: 25,
+    shadowColor: '#000',
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 3 },
   },
-  input: {,
-    color: 'white', 
-    paddingVertical: 5,
+  label: {
+    color: '#98FFCC',
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: 8,
+    fontFamily: 'FunnelSans-VariableFont_wght',
+  },
+  input: {
+    backgroundColor: '#1E3A2E',
+    color: '#E0F7EE',
+    borderRadius: 12,
+    padding: 10,
+    fontSize: 16,
+    fontFamily: 'FunnelSans-VariableFont_wght',
+    minHeight: 40,
   },
   contentInput: {
-    height: 80,
+    height: 100,
     textAlignVertical: 'top',
+    marginTop: 8,
+  },
+  counter: {
+    color: '#68D8A2',
+    fontSize: 14,
+    marginTop: 6,
+    textAlign: 'right',
+    fontFamily: 'FunnelSans-VariableFont_wght',
   },
 });
