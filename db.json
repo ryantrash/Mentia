@@ -17,7 +17,17 @@
       "admin": true
     }
   ],
-  "posts": [],
+  "posts": [
+    {
+      "id": "f077",
+      "title": "Mentia",
+      "content": "Mentia is a social media catered towards raising awareness for mental health in teenagers. It was created by Ryan Herber and Akash Kongara as a part of the 2025 Congressional App Challenge!",
+      "username": "test",
+      "date": "Wed Oct 29 2025",
+      "image": "file:///data/user/0/host.exp.exponent/cache/ImagePicker/8f708c57-0b5e-43bf-a365-36f0919e0005.jpeg",
+      "likes": 0
+    }
+  ],
   "comments": [],
   "commentReports": [],
   "postReports": []
