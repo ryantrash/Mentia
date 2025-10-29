@@ -62,8 +62,8 @@ export default function postView() {
             <CommentView id={id} />
           </View>
         </View>
+         <Footer />
       </ScrollView>
-      <Footer />
 
       <Modal transparent visible={showOptions}>
         <View style={styles.modalContainer}>
